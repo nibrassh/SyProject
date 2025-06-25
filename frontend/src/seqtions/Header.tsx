@@ -2,13 +2,22 @@
 import Link from "next/link"
 import Image from "next/image"
 import { useState } from "react"
+import { useTranslation } from 'react-i18next'
 
 export default function Header() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState<boolean>(false)
-  const [isAuthDropdownOpen, setIsAuthDropdownOpen] = useState<boolean>(false)
+  const [isLanguageDropdownOpen, setIsLanguageDropdownOpen] = useState<boolean>(false)
+  const { t, i18n } = useTranslation('common')
 
   const toggleMobileMenu = () => setIsMobileMenuOpen(prev => !prev)
-  const toggleAuthDropdown = () => setIsAuthDropdownOpen(prev => !prev)
+  const toggleLanguageDropdown = () => setIsLanguageDropdownOpen(prev => !prev)
+
+  const changeLanguage = (lng: string) => {
+    i18n.changeLanguage(lng)
+    document.documentElement.lang = lng
+    document.documentElement.dir = lng === 'ar' ? 'rtl' : 'ltr'
+    
+  }
 
   return (
     <header className={`
@@ -33,7 +42,6 @@ export default function Header() {
             width={120}
             height={40}
             className="h-8 w-auto md:h-10 bg-blue-500"
-            
           />
         </Link>
         
@@ -55,38 +63,69 @@ export default function Header() {
         md:items-center
         ${isMobileMenuOpen ? 'mt-4' : 'hidden md:flex'}
       `}>
-        <NavLink href="/">Home</NavLink>
-        <NavLink href="/about">About</NavLink>
-        <NavLink href="/opportunities">Opportunities</NavLink>
+        <NavLink href="/">{t('header.home')}</NavLink>
+        <NavLink href="/about">{t('header.about')}</NavLink>
+        <NavLink href="/opportunities">{t('header.opportunities')}</NavLink>
       </nav>
 
+      {/* Language Dropdown */}
       <div className="relative">
         <button 
-          onClick={toggleAuthDropdown}
-          className="text-gray-700 hover:text-blue-500 transition-colors"
-          aria-label="Authentication menu"
-          aria-expanded={isAuthDropdownOpen}
+          onClick={toggleLanguageDropdown}
+          className="flex items-center gap-1 text-gray-700 hover:text-blue-500 transition-colors"
+          aria-label="Language menu"
+          aria-expanded={isLanguageDropdownOpen}
         >
-          Account
+          {i18n.language === 'ar' ? 'العربية' : 'English'}
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            className={`h-4 w-4 transition-transform ${isLanguageDropdownOpen ? 'rotate-180' : ''}`}
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+          </svg>
         </button>
         
         <div 
           className={`
-            absolute right-[50%] md:right-0 mt-2 w-48
+            absolute right-0 mt-2 w-32
             bg-white shadow-lg rounded-md
             overflow-hidden
             transition-all duration-200 ease-in-out
-            ${isAuthDropdownOpen ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-2 pointer-events-none'}
+            ${isLanguageDropdownOpen ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-2 pointer-events-none'}
           `}
         >
-          <DropdownLink href="/sign-up">Sign Up</DropdownLink>
-          <DropdownLink href="/sign-in">Sign In</DropdownLink>
+          <button
+            onClick={() => changeLanguage('en')}
+            className="
+              block w-full text-left px-4 py-2 
+              text-gray-700 hover:bg-blue-50 hover:text-blue-600
+              transition-colors
+              ${i18n.language === 'en' ? 'bg-blue-50 text-blue-600' : ''}
+            "
+          >
+            English
+          </button>
+          <button
+            onClick={() => changeLanguage('ar')}
+            className="
+              block w-full text-left px-4 py-2 
+              text-gray-700 hover:bg-blue-50 hover:text-blue-600
+              transition-colors
+              ${i18n.language === 'ar' ? 'bg-blue-50 text-blue-600' : ''}
+            "
+          >
+            العربية
+          </button>
         </div>
       </div>
     </header>
   )
 }
 
+// NavLink component remains the same
 function NavLink({ href, children }: { href: string; children: React.ReactNode }) {
   return (
     <Link 
@@ -95,21 +134,6 @@ function NavLink({ href, children }: { href: string; children: React.ReactNode }
         text-gray-700 hover:text-blue-500 
         transition-colors duration-200
         hover:translate-y-0.5
-      "
-    >
-      {children}
-    </Link>
-  )
-}
-
-function DropdownLink({ href, children }: { href: string; children: React.ReactNode }) {
-  return (
-    <Link
-      href={href}
-      className="
-        block px-4 py-2 
-        text-gray-700 hover:bg-blue-50 hover:text-blue-600
-        transition-colors
       "
     >
       {children}

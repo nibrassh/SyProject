@@ -1,0 +1,17 @@
+{
+  "hero": {
+    "explore": "اكتشف",
+    "connect": "تواصل",
+    "achieve": "حقق",
+    "connect_with": "تواصل مع",
+    "get_started": "ابدأ الآن"
+  },
+  "professions": {
+    "contractors": "المقاولون",
+    "investors": "المستثمرون",
+    "engineers": "المهندسون",
+    "partners": "الشركاء",
+    "architects": "المهندسون المعماريون",
+    "companies": "الشركات"
+  }
+}

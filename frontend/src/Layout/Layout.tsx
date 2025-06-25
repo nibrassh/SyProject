@@ -2,10 +2,13 @@
 import Head from 'next/head';
 import Footer from '@/seqtions/Footer';
 import Header from '@/seqtions/Header';
+import I18nClientWrapper from '@/components/I18next';
 
 export default function Layout({ children }) {
  
   return (
+    <I18nClientWrapper>
+
     <div className="flex flex-col min-h-screen">
       <Head>
         <title>Investment Opportunities Map</title>
@@ -20,5 +23,6 @@ export default function Layout({ children }) {
 
       <Footer/>
     </div>
+    </I18nClientWrapper>
   );
 }

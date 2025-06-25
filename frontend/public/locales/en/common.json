@@ -1,0 +1,13 @@
+{
+  "header": {
+    "home": "Home",
+    "about": "About Us",
+    "opportunities": "Opportunities"
+  },
+  "footer": {
+    "copyright": "Investment Opportunities Map. All rights reserved.",
+    "privacy": "Privacy Policy",
+    "terms": "Terms of Service",
+    "contact": "Contact Us"
+  }
+}
