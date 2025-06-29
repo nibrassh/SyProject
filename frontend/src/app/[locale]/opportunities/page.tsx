@@ -4,8 +4,10 @@ import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet'
 import 'leaflet/dist/leaflet.css'
 import L from 'leaflet'
 import { useState } from 'react'
-import { FaSearch} from 'react-icons/fa'
-import {opportunities} from '../../../../fakeData/data'
+import { FaSearch } from 'react-icons/fa'
+import { opportunities } from '../../../../fakeData/data'
+import Link from 'next/link'
+import Image from 'next/image'
 
 // إنشاء أيقونة مخصصة بدون renderToString
 const createCustomIcon = () => {
@@ -18,9 +20,7 @@ const createCustomIcon = () => {
 
 function OpportunitiesPage() {
   const [searchQuery, setSearchQuery] = useState('')
-  const [mapCenter] = useState([34.8021, 38.9968]) 
-
- 
+  const [mapCenter] = useState([34.8021, 38.9968])
 
   return (
     <Layout>
@@ -57,16 +57,29 @@ function OpportunitiesPage() {
                 position={opp.location}
                 icon={createCustomIcon()}
               >
-                <Popup>
-                  <div className="space-y-2">
-                    <div className="flex items-center gap-2">
-                      {opp.icon}
-                      <h3 className="font-bold text-blue-600">{opp.name}</h3>
+                <Popup className="custom-popup">
+                  <div className="space-y-3 min-w-[250px]">
+                    <h3 className="font-bold text-lg text-blue-600">{opp.name}</h3>
+                    <div className="relative w-full h-32 rounded-md overflow-hidden">
+                      <Image
+                        src={opp.image}
+                        alt={opp.name}
+                        fill
+                        className="object-cover"
+                        unoptimized={true}
+                      />
                     </div>
-                    <p className="text-gray-700">{opp.type}</p>
-                    <button className="mt-2 px-3 py-1 bg-blue-600 text-white text-sm rounded hover:bg-blue-700 transition flex items-center gap-1">
-                      View Details
-                    </button>
+                    <div className="space-y-1">
+                      <p className="text-gray-700"><span className="font-medium">Type:</span> {opp.type}</p>
+                      <p className="text-gray-700"><span className="font-medium">Location:</span> {opp.address}</p>
+                      <p className="text-gray-700 line-clamp-2">{opp.shortDescription}</p>
+                    </div>
+                    <Link 
+                      href={`/opportunities/${opp.id}`}
+                      className="block mt-2 px-4 py-2 bg-blue-600 text-white text-center rounded hover:bg-blue-700 transition"
+                    >
+                      View All Details
+                    </Link>
                   </div>
                 </Popup>
               </Marker>
