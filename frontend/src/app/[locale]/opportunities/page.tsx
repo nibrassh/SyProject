@@ -18,7 +18,7 @@ const createCustomIcon = () => {
 
 function OpportunitiesPage() {
   const [searchQuery, setSearchQuery] = useState('')
-  const [mapCenter] = useState([34.8021, 38.9968]) // Syria coordinates
+  const [mapCenter] = useState([34.8021, 38.9968]) 
 
  
 
