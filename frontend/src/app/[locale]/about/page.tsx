@@ -1,17 +1,17 @@
 import Layout from "@/Layout/Layout"
 import Image from "next/image"
-import { useTranslation } from 'react-i18next'
+import { useTranslations } from 'next-intl'
 
 export default function AboutPage() {
-  const { t } = useTranslation('about')
+  const t = useTranslations('about')
 
   return (
     <Layout>
-           <div className="relative h-96 bg-gradient-to-r from-blue-900 to-blue-700 flex items-center justify-center">
+      <div className="relative h-96 bg-gradient-to-r from-blue-900 to-blue-700 flex items-center justify-center">
         <div className="absolute inset-0 bg-black/30"></div>
         <div className="relative z-10 text-center px-4">
           <h1 className="text-4xl md:text-5xl font-bold text-white mb-6">
-            {t('hero.title')}
+            {t('hero_title')}
           </h1>
           <div className="w-24 h-1 bg-white mx-auto"></div>
         </div>
@@ -22,11 +22,11 @@ export default function AboutPage() {
         <div className="container mx-auto px-4 max-w-4xl">
           <div className="text-center mb-16">
             <h2 className="text-3xl md:text-4xl font-light text-blue-800 mb-4">
-              {t('vision.title')}
+              {t('vision_title')}
             </h2>
             <div className="w-20 h-1 bg-blue-600 mx-auto mb-8"></div>
             <p className="text-xl text-gray-600 leading-relaxed">
-              {t('vision.description')}
+              {t('vision_description')}
             </p>
           </div>
 
@@ -34,7 +34,7 @@ export default function AboutPage() {
             <div className="relative h-80 rounded-lg overflow-hidden shadow-xl">
               <Image
                 src="/images.jpg" 
-                alt={t('vision.image_alt')}
+                alt={t('vision_image_alt')}
                 fill
                 className="object-cover"
                 priority
@@ -42,10 +42,10 @@ export default function AboutPage() {
             </div>
             <div>
               <h3 className="text-2xl font-serif text-blue-900 mb-6">
-                {t('mission.title')}
+                {t('mission_title')}
               </h3>
               <p className="text-gray-700 mb-6 leading-relaxed">
-                {t('mission.description')}
+                {t('mission_description')}
               </p>
             </div>
           </div>
@@ -56,19 +56,19 @@ export default function AboutPage() {
       <section className="py-20 bg-gray-50">
         <div className="container mx-auto px-4 max-w-4xl text-center">
           <h2 className="text-3xl md:text-4xl font-light text-blue-800 mb-4">
-            {t('why.title')}
+            {t('why_title')}
           </h2>
           <div className="w-20 h-1 bg-blue-600 mx-auto mb-8"></div>
           <p className="text-xl text-gray-600 mb-10 leading-relaxed">
-            {t('why.description')}
+            {t('why_description')}
           </p>
           
           <div className="bg-white p-8 rounded-xl shadow-lg max-w-2xl mx-auto">
             <p className="text-2xl font-serif text-blue-900 mb-4">
-            {t('why.quote')}
+              {t('why_quote')}
             </p>
             <p className="text-lg text-gray-700">
-              {t('why.subquote')}
+              {t('why_subquote')}
             </p>
           </div>
         </div>
@@ -78,17 +78,17 @@ export default function AboutPage() {
       <section className="py-16 bg-blue-800 text-white">
         <div className="container mx-auto px-4 text-center">
           <h2 className="text-3xl font-light mb-6">
-            {t('cta.title')}
+            {t('cta_title')}
           </h2>
           <p className="text-xl mb-8 max-w-2xl mx-auto">
-            {t('cta.description')}
+            {t('cta_description')}
           </p>
           <div className="flex flex-col items-center">
             <a 
-              href={`mailto:${t('cta.email')}`} 
+              href={`mailto:${t('cta_email')}`} 
               className="px-8 py-3 bg-white text-blue-800 rounded-full font-medium hover:bg-gray-100 transition-colors shadow-lg"
             >
-              {t('cta.button')}: {t('cta.email')}
+              {t('cta_button')}: {t('cta_email')}
             </a>
           </div>
         </div>

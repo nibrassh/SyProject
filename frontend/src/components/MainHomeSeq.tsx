@@ -15,7 +15,7 @@ export default function HeroSection() {
     t('visionaries')
   ]
 
-  // Auto-rotate professions
+ 
   useEffect(() => {
     const timer = setInterval(() => {
       setCurrentProfession(prev => (prev + 1) % professions.length)

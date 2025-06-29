@@ -23,5 +23,22 @@
     "startups": "Startups",
     "innovators": "Innovators",
     "visionaries": "Visionaries"
+  },
+   "about": {
+    "hero_title": "About Our Mission",
+    "vision_title": "Our Vision",
+    "vision_description": "We envision a rebuilt Syria where innovation, expertise, and investment converge to create thriving communities and a resilient future. Rebuilding-Syria.com aspires to be the cornerstone of this transformation — a beacon of hope and proof of collective action.",
+    "vision_image_alt": "Vision for Syria",
+    "mission_title": "Our Mission",
+    "mission_description": "To be the leading catalyst for Syria's rebuilding by fostering a transparent, trustworthy, and collaborative ecosystem. We connect credible investors, skilled professionals, and capable companies with viable projects, empowering sustainable development and national revival.",
+    "why_title": "Why Rebuilding Syria?",
+    "why_description": "Because being part of Syria's rebuilding opens countless doors in the region. Syria's future holds immense opportunity — and those who take a step now will be ahead when the tide turns.",
+    "why_quote": "Rebuilding Syria has begun. Your decision today defines your position tomorrow",
+    "why_subquote": "Put yourself on the rebuilding map — starting now.",
+    "cta_title": "Join the Movement",
+    "cta_description": "Ready to be part of Syria's renaissance? Contact us to learn how you can contribute.",
+    "cta_button": "Message Us",
+    "cta_email": "example@gmail.com",
+    "direction": "ltr"
   }
 }
