@@ -1,0 +1,27 @@
+{
+  "header": {
+    "home": "Home",
+    "about": "About Us",
+    "opportunities": "Opportunities"
+  },
+  "footer": {
+    "copyright": "Investment Opportunities Map. All rights reserved.",
+    "privacy": "Privacy Policy",
+    "terms": "Terms of Service",
+    "contact": "Contact Us"
+  },
+  "home":{
+     "discover": "Discover",
+    "collaborate": "Collaborate",
+    "succeed": "Succeed",
+    "join_forces_with": "Join forces with",
+    "join_now": "Join Now",
+    "learn_more": "Learn More",
+     "developers": "Developers",
+    "investors": "Investors",
+    "entrepreneurs": "Entrepreneurs",
+    "startups": "Startups",
+    "innovators": "Innovators",
+    "visionaries": "Visionaries"
+  }
+}

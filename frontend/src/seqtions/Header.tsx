@@ -2,139 +2,145 @@
 import Link from "next/link"
 import Image from "next/image"
 import { useState } from "react"
-import { useTranslation } from 'react-i18next'
+import { useTranslations, useLocale } from 'next-intl'
+import { useRouter, usePathname } from 'next/navigation'
 
 export default function Header() {
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState<boolean>(false)
-  const [isLanguageDropdownOpen, setIsLanguageDropdownOpen] = useState<boolean>(false)
-  const { t, i18n } = useTranslation('common')
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
+  const [isLanguageDropdownOpen, setIsLanguageDropdownOpen] = useState(false)
+  const t = useTranslations('header')
+  const locale = useLocale()
+  const router = useRouter()
+  const pathname = usePathname()
 
   const toggleMobileMenu = () => setIsMobileMenuOpen(prev => !prev)
   const toggleLanguageDropdown = () => setIsLanguageDropdownOpen(prev => !prev)
 
-  const changeLanguage = (lng: string) => {
-    i18n.changeLanguage(lng)
-    document.documentElement.lang = lng
-    document.documentElement.dir = lng === 'ar' ? 'rtl' : 'ltr'
-    
+  const changeLanguage = (newLocale: string) => {
+    // Remove current locale from pathname
+    const segments = pathname.split('/')
+    const pathWithoutLocale = segments.slice(2).join('/') || '/'
+    router.push(`/${newLocale}/${pathWithoutLocale}`)
+    setIsLanguageDropdownOpen(false)
   }
 
   return (
-    <header className={`
-      sticky top-0 
-      flex flex-col justify-between 
-      shadow-md shadow-blue-950/20
-      ${isMobileMenuOpen ? "h-[250px] overflow-visible" : "h-[60px]"} 
-      md:h-[60px] 
-      z-50 
-      px-5 py-4 
-      md:flex-row 
-      overflow-hidden md:overflow-visible 
-      transition-all duration-300 ease-in-out
-      bg-white
-    `}>
-      
-      <div className="flex items-center justify-between">
-        <Link href="/" className="hover:opacity-80 transition-opacity p-1">
-          <Image 
-            src="/Syrai.png" 
-            alt="Syria Logo"
-            width={120}
-            height={40}
-            className="h-8 w-auto md:h-10 bg-blue-500"
-          />
-        </Link>
-        
-        <button 
-          className="md:hidden p-1 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
-          onClick={toggleMobileMenu}
-          aria-label="Toggle menu"
-          aria-expanded={isMobileMenuOpen}
-        >
-          <span className="block w-6 h-0.5 bg-gray-600 mb-1.5"></span>
-          <span className="block w-6 h-0.5 bg-gray-600 mb-1.5"></span>
-          <span className="block w-6 h-0.5 bg-gray-600"></span>
-        </button>
-      </div>
+    <header className={`sticky top-0 z-50 bg-white shadow-md shadow-blue-950/20 transition-all duration-300 ease-in-out ${locale === 'ar' ? 'rtl' : 'ltr'}`}>
+      <div className="container mx-auto px-4 py-4">
+        <div className="flex items-center justify-between">
+          {/* Logo */}
+          <Link href="/" className="hover:opacity-80 transition-opacity">
+            <Image 
+              src="/Syrai.png" 
+              alt="Syria Logo"
+              width={120}
+              height={40}
+              className="h-8 w-auto md:h-10"
+            />
+          </Link>
 
-      <nav className={`
-        flex flex-col md:flex-row 
-        gap-4 md:gap-6 
-        md:items-center
-        ${isMobileMenuOpen ? 'mt-4' : 'hidden md:flex'}
-      `}>
-        <NavLink href="/">{t('header.home')}</NavLink>
-        <NavLink href="/about">{t('header.about')}</NavLink>
-        <NavLink href="/opportunities">{t('header.opportunities')}</NavLink>
-      </nav>
+          {/* Mobile menu button */}
+          <button 
+            className="md:hidden p-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+            onClick={toggleMobileMenu}
+            aria-label="Toggle menu"
+          >
+            <div className="space-y-1.5">
+              <span className={`block w-6 h-0.5 bg-gray-600 transition-all ${isMobileMenuOpen ? 'rotate-45 translate-y-2' : ''}`}></span>
+              <span className={`block w-6 h-0.5 bg-gray-600 ${isMobileMenuOpen ? 'opacity-0' : ''}`}></span>
+              <span className={`block w-6 h-0.5 bg-gray-600 transition-all ${isMobileMenuOpen ? '-rotate-45 -translate-y-2' : ''}`}></span>
+            </div>
+          </button>
 
-      {/* Language Dropdown */}
-      <div className="relative">
-        <button 
-          onClick={toggleLanguageDropdown}
-          className="flex items-center gap-1 text-gray-700 hover:text-blue-500 transition-colors"
-          aria-label="Language menu"
-          aria-expanded={isLanguageDropdownOpen}
-        >
-          {i18n.language === 'ar' ? 'العربية' : 'English'}
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            className={`h-4 w-4 transition-transform ${isLanguageDropdownOpen ? 'rotate-180' : ''}`}
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-          >
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-          </svg>
-        </button>
-        
-        <div 
-          className={`
-            absolute right-0 mt-2 w-32
-            bg-white shadow-lg rounded-md
-            overflow-hidden
-            transition-all duration-200 ease-in-out
-            ${isLanguageDropdownOpen ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-2 pointer-events-none'}
-          `}
-        >
-          <button
-            onClick={() => changeLanguage('en')}
-            className="
-              block w-full text-left px-4 py-2 
-              text-gray-700 hover:bg-blue-50 hover:text-blue-600
-              transition-colors
-              ${i18n.language === 'en' ? 'bg-blue-50 text-blue-600' : ''}
-            "
-          >
-            English
-          </button>
-          <button
-            onClick={() => changeLanguage('ar')}
-            className="
-              block w-full text-left px-4 py-2 
-              text-gray-700 hover:bg-blue-50 hover:text-blue-600
-              transition-colors
-              ${i18n.language === 'ar' ? 'bg-blue-50 text-blue-600' : ''}
-            "
-          >
-            العربية
-          </button>
+          {/* Desktop Navigation */}
+          <nav className="hidden md:flex items-center space-x-6 rtl:space-x-reverse">
+            <NavLink href="/">{t('home')}</NavLink>
+            <NavLink href="/about">{t('about')}</NavLink>
+            <NavLink href="/opportunities">{t('opportunities')}</NavLink>
+            
+            {/* Language Dropdown - Desktop */}
+            <div className="relative">
+              <button 
+                onClick={toggleLanguageDropdown}
+                className="flex items-center gap-1 text-gray-700 hover:text-blue-500 transition-colors"
+              >
+                {locale === 'ar' ? 'العربية' : 'English'}
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className={`h-4 w-4 transition-transform ${isLanguageDropdownOpen ? 'rotate-180' : ''}`}
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                </svg>
+              </button>
+              
+              {isLanguageDropdownOpen && (
+                <div className="absolute right-0 mt-2 w-32 bg-white shadow-lg rounded-md overflow-hidden z-50">
+                  <button
+                    onClick={() => changeLanguage('en')}
+                    className={`block w-full text-left px-4 py-2 text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition-colors ${locale === 'en' ? 'bg-blue-50 text-blue-600' : ''}`}
+                  >
+                    English
+                  </button>
+                  <button
+                    onClick={() => changeLanguage('ar')}
+                    className={`block w-full text-left px-4 py-2 text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition-colors ${locale === 'ar' ? 'bg-blue-50 text-blue-600' : ''}`}
+                  >
+                    العربية
+                  </button>
+                </div>
+              )}
+            </div>
+          </nav>
         </div>
+
+        {/* Mobile Navigation */}
+        {isMobileMenuOpen && (
+          <div className="md:hidden mt-4 pb-4 space-y-3">
+            <MobileNavLink href="/" onClick={toggleMobileMenu}>{t('home')}</MobileNavLink>
+            <MobileNavLink href="/about" onClick={toggleMobileMenu}>{t('about')}</MobileNavLink>
+            <MobileNavLink href="/opportunities" onClick={toggleMobileMenu}>{t('opportunities')}</MobileNavLink>
+            
+            <div className="pt-2 border-t border-gray-200">
+              <button
+                onClick={() => changeLanguage('en')}
+                className={`block w-full text-left px-4 py-2 text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition-colors rounded ${locale === 'en' ? 'bg-blue-50 text-blue-600' : ''}`}
+              >
+                English
+              </button>
+              <button
+                onClick={() => changeLanguage('ar')}
+                className={`block w-full text-left px-4 py-2 text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition-colors rounded ${locale === 'ar' ? 'bg-blue-50 text-blue-600' : ''}`}
+              >
+                العربية
+              </button>
+            </div>
+          </div>
+        )}
       </div>
     </header>
   )
 }
 
-// NavLink component remains the same
 function NavLink({ href, children }: { href: string; children: React.ReactNode }) {
   return (
     <Link 
       href={href}
-      className="
-        text-gray-700 hover:text-blue-500 
-        transition-colors duration-200
-        hover:translate-y-0.5
-      "
+      className="text-gray-700 hover:text-blue-500 transition-colors duration-200 font-medium"
+    >
+      {children}
+    </Link>
+  )
+}
+
+function MobileNavLink({ href, children, onClick }: { href: string; children: React.ReactNode; onClick: () => void }) {
+  return (
+    <Link 
+      href={href}
+      onClick={onClick}
+      className="block px-4 py-2 text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition-colors rounded font-medium"
     >
       {children}
     </Link>

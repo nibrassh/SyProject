@@ -5,7 +5,7 @@ import 'leaflet/dist/leaflet.css'
 import L from 'leaflet'
 import { useState } from 'react'
 import { FaSearch} from 'react-icons/fa'
-import {opportunities} from '../../../fakeData/data'
+import {opportunities} from '../../../../fakeData/data'
 
 // إنشاء أيقونة مخصصة بدون renderToString
 const createCustomIcon = () => {

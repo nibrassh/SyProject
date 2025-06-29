@@ -1,0 +1,27 @@
+{
+  "header": {
+    "home": "الرئيسية",
+    "about": "من نحن",
+    "opportunities": "الفرص"
+  },
+    "footer": {
+    "copyright": "خريطة الفرص الاستثمارية. جميع الحقوق محفوظة",
+    "privacy": "سياسة الخصوصية",
+    "terms": "شروط الخدمة",
+    "contact": "اتصل بنا"
+  },
+    "home": {
+    "discover": "اكتشف",
+    "collaborate": "تعاون",
+    "succeed": "انجح",
+    "join_forces_with": "انضم إلى قوات مع",
+    "join_now": "انضم الآن",
+    "learn_more": "تعلم المزيد",
+    "developers": "المطورين",
+    "investors": "المستثمرين",
+    "entrepreneurs": "رواد الأعمال",
+    "startups": "الشركات الناشئة",
+    "innovators": "المبتكرين",
+    "visionaries": "المبصرين"
+  }
+}
