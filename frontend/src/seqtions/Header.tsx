@@ -1,148 +1,110 @@
-'use client'
-import Link from "next/link"
-import Image from "next/image"
-import { useState } from "react"
-import { useTranslations, useLocale } from 'next-intl'
-import { useRouter, usePathname } from 'next/navigation'
+"use client";
+import Link from "next/link";
+import Image from "next/image";
+import { useState } from "react";
+import { useTranslations, useLocale } from "next-intl";
+import { useRouter, usePathname } from "next/navigation";
+import { FaBars, FaTimes, FaChevronDown } from "react-icons/fa";
 
 export default function Header() {
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
-  const [isLanguageDropdownOpen, setIsLanguageDropdownOpen] = useState(false)
-  const t = useTranslations('header')
-  const locale = useLocale()
-  const router = useRouter()
-  const pathname = usePathname()
-
-  const toggleMobileMenu = () => setIsMobileMenuOpen(prev => !prev)
-  const toggleLanguageDropdown = () => setIsLanguageDropdownOpen(prev => !prev)
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [langDropdownOpen, setLangDropdownOpen] = useState(false);
+  const t = useTranslations("header");
+  const locale = useLocale();
+  const router = useRouter();
+  const pathname = usePathname();
 
   const changeLanguage = (newLocale: string) => {
-    // Remove current locale from pathname
-    const segments = pathname.split('/')
-    const pathWithoutLocale = segments.slice(2).join('/') || '/'
-    router.push(`/${newLocale}/${pathWithoutLocale}`)
-    setIsLanguageDropdownOpen(false)
-  }
+    const segments = pathname.split("/");
+    const pathWithoutLocale = segments.slice(2).join("/") || "/";
+    router.push(`/${newLocale}/${pathWithoutLocale}`);
+    setLangDropdownOpen(false);
+    setMobileMenuOpen(false);
+  };
+
+  const languages = [
+    { code: "en", label: "English" },
+    { code: "ar", label: "العربية" },
+  ];
+
+  const navLinks = [
+    { href: "/", label: t("home") },
+    { href: "/about", label: t("about") },
+    { href: "/opportunities", label: t("opportunities") },
+  ];
 
   return (
-    <header className={`sticky top-0 z-50 bg-white shadow-md shadow-blue-950/20 transition-all duration-300 ease-in-out ${locale === 'ar' ? 'rtl' : 'ltr'}`}>
-      <div className="container mx-auto px-4 py-4">
-        <div className="flex items-center justify-between">
-          {/* Logo */}
+    <header className="sticky top-0 bg-white shadow-md z-50 py-3">
+      <div className="max-w-7xl mx-auto px-4 flex flex-col md:flex-row justify-between items-center">
+        {/* Logo and mobile menu button */}
+        <div className="w-full md:w-auto flex justify-between items-center">
           <Link href="/" className="hover:opacity-80 transition-opacity">
-            <Image 
-              src="/Syrai.png" 
+            <Image
+              src="/Syrai.png"
               alt="Syria Logo"
-              width={120}
-              height={40}
-              className="h-8 w-auto md:h-10"
+              width={140} // Increased width
+              height={50} // Increased height
+              className="h-10 w-auto md:h-12" // Increased size
             />
           </Link>
 
-          {/* Mobile menu button */}
-          <button 
-            className="md:hidden p-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
-            onClick={toggleMobileMenu}
+          <button
+            className="md:hidden p-2"
+            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
             aria-label="Toggle menu"
           >
-            <div className="space-y-1.5">
-              <span className={`block w-6 h-0.5 bg-gray-600 transition-all ${isMobileMenuOpen ? 'rotate-45 translate-y-2' : ''}`}></span>
-              <span className={`block w-6 h-0.5 bg-gray-600 ${isMobileMenuOpen ? 'opacity-0' : ''}`}></span>
-              <span className={`block w-6 h-0.5 bg-gray-600 transition-all ${isMobileMenuOpen ? '-rotate-45 -translate-y-2' : ''}`}></span>
-            </div>
+            {mobileMenuOpen ? <FaTimes size={24} /> : <FaBars size={24} />}
           </button>
+        </div>
 
-          {/* Desktop Navigation */}
-          <nav className="hidden md:flex items-center space-x-6 rtl:space-x-reverse">
-            <NavLink href="/">{t('home')}</NavLink>
-            <NavLink href="/about">{t('about')}</NavLink>
-            <NavLink href="/opportunities">{t('opportunities')}</NavLink>
-            
-            {/* Language Dropdown - Desktop */}
-            <div className="relative">
-              <button 
-                onClick={toggleLanguageDropdown}
-                className="flex items-center gap-1 text-gray-700 hover:text-blue-500 transition-colors"
+        {/* Navigation menu */}
+        <nav
+          className={`${
+            mobileMenuOpen ? "block" : "hidden"
+          } md:flex md:items-center w-full md:w-auto mt-4 md:mt-0`}
+        >
+          <div className="flex flex-col md:flex-row md:space-x-6 space-y-4 md:space-y-0">
+            {navLinks.map((link) => (
+              <Link
+                key={link.href}
+                href={link.href}
+                className="text-lg text-gray-700 hover:text-blue-500 font-medium py-2 transition-colors" // Added text-lg
+                onClick={() => setMobileMenuOpen(false)}
               >
-                {locale === 'ar' ? 'العربية' : 'English'}
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className={`h-4 w-4 transition-transform ${isLanguageDropdownOpen ? 'rotate-180' : ''}`}
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                </svg>
+                {link.label}
+              </Link>
+            ))}
+
+            <div className="relative ">
+              <button
+                className="flex items-center text-lg text-gray-700 hover:text-blue-500 font-medium py-2" // Added text-lg
+                onClick={() => setLangDropdownOpen(!langDropdownOpen)}
+              >
+                {locale === "ar" ? "العربية" : "English"}
+                <FaChevronDown className="ml-1 text-sm" />
               </button>
-              
-              {isLanguageDropdownOpen && (
-                <div className="absolute right-0 mt-2 w-32 bg-white shadow-lg rounded-md overflow-hidden z-50">
-                  <button
-                    onClick={() => changeLanguage('en')}
-                    className={`block w-full text-left px-4 py-2 text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition-colors ${locale === 'en' ? 'bg-blue-50 text-blue-600' : ''}`}
-                  >
-                    English
-                  </button>
-                  <button
-                    onClick={() => changeLanguage('ar')}
-                    className={`block w-full text-left px-4 py-2 text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition-colors ${locale === 'ar' ? 'bg-blue-50 text-blue-600' : ''}`}
-                  >
-                    العربية
-                  </button>
+
+              {langDropdownOpen && (
+                <div className="absolute left-0 md:right-0 mt-2 w-40 bg-white rounded-md shadow-lg py-1 z-50">
+                  {languages.map((lang) => (
+                    <button
+                      key={lang.code}
+                      className={`block w-full text-left px-4 py-2 text-sm ${
+                        locale === lang.code
+                          ? "bg-blue-50 text-blue-600"
+                          : "text-gray-700 hover:bg-gray-100"
+                      }`}
+                      onClick={() => changeLanguage(lang.code)}
+                    >
+                      {lang.label}
+                    </button>
+                  ))}
                 </div>
               )}
             </div>
-          </nav>
-        </div>
-
-        {/* Mobile Navigation */}
-        {isMobileMenuOpen && (
-          <div className="md:hidden mt-4 pb-4 space-y-3">
-            <MobileNavLink href="/" onClick={toggleMobileMenu}>{t('home')}</MobileNavLink>
-            <MobileNavLink href="/about" onClick={toggleMobileMenu}>{t('about')}</MobileNavLink>
-            <MobileNavLink href="/opportunities" onClick={toggleMobileMenu}>{t('opportunities')}</MobileNavLink>
-            
-            <div className="pt-2 border-t border-gray-200">
-              <button
-                onClick={() => changeLanguage('en')}
-                className={`block w-full text-left px-4 py-2 text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition-colors rounded ${locale === 'en' ? 'bg-blue-50 text-blue-600' : ''}`}
-              >
-                English
-              </button>
-              <button
-                onClick={() => changeLanguage('ar')}
-                className={`block w-full text-left px-4 py-2 text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition-colors rounded ${locale === 'ar' ? 'bg-blue-50 text-blue-600' : ''}`}
-              >
-                العربية
-              </button>
-            </div>
           </div>
-        )}
+        </nav>
       </div>
     </header>
-  )
-}
-
-function NavLink({ href, children }: { href: string; children: React.ReactNode }) {
-  return (
-    <Link 
-      href={href}
-      className="text-gray-700 hover:text-blue-500 transition-colors duration-200 font-medium"
-    >
-      {children}
-    </Link>
-  )
-}
-
-function MobileNavLink({ href, children, onClick }: { href: string; children: React.ReactNode; onClick: () => void }) {
-  return (
-    <Link 
-      href={href}
-      onClick={onClick}
-      className="block px-4 py-2 text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition-colors rounded font-medium"
-    >
-      {children}
-    </Link>
-  )
+  );
 }
