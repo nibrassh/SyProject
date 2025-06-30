@@ -1,6 +1,5 @@
 'use client'
 import Layout from "@/Layout/Layout";
-import { notFound } from 'next/navigation';
 import { opportunities } from '../../../../../fakeData/data';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -8,11 +7,10 @@ import { FaMapMarkerAlt, FaCalendarAlt,  FaArrowLeft } from 'react-icons/fa';
 import { useParams } from 'next/navigation';
 
 export default function OpportunityDetails() {
-  // Get ID from URL parameters
-  const params = useParams();
-  const id = Number(params.id); // Convert to number
 
-  // Directly access the opportunity by index (id-1)
+  const params = useParams();
+  const id = Number(params.id); 
+
   const opportunity = opportunities[id - 1];
 
   return (

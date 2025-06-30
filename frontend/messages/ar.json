@@ -40,5 +40,43 @@
     "cta_button": "راسلنا",
     "cta_email": "example@gmail.com",
     "direction": "rtl"
+  },
+  
+  "RequestPage": {
+    "title": "نموذج طلب الفرصة",
+    "subtitle": "املأ النموذج أدناه لتقديم طلبك",
+    "successMessage": "تم إرسال الطلب بنجاح!",
+    "followUp": "سنتواصل معك خلال يومي عمل",
+    "form": {
+      "name": "الاسم الكامل",
+      "email": "البريد الإلكتروني",
+      "phone": "رقم الهاتف",
+      "company": "الشركة",
+      "position": "المنصب",
+      "timeline": "الجدول الزمني",
+      "message": "رسالتك",
+      "file": {
+        "label": "إرفاق ملف (اختياري)",
+        "placeholder": "انقر للتحميل أو اسحب الملف وأفلته هنا",
+        "hint": "PDF, DOC, DOCX (الحد الأقصى 10 ميجابايت)"
+      },
+      "submit": "إرسال الطلب",
+      "timelineOptions": {
+        "default": "اختر الجدول الزمني",
+        "immediate": "فوري",
+        "1_3_months": "1-3 أشهر",
+        "3_6_months": "3-6 أشهر",
+        "over_6_months": "أكثر من 6 أشهر"
+      }
+    },
+    "placeholders": {
+      "name": "محمد أحمد",
+      "email": "mohamed@example.com",
+      "phone": "+966 55 123 4567",
+      "company": "اسم الشركة",
+      "position": "منصبك الوظيفي",
+      "message": "أخبرنا عن طلبك..."
+    }
   }
+
 }
