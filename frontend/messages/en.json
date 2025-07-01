@@ -77,6 +77,17 @@
       "position": "Your Position",
       "message": "Tell us about your request..."
     }
+  },
+  "SignIn": {
+    "signInTitle": "Sign In",
+    "emailLabel": "Email",
+    "emailPlaceholder": "your@email.com",
+    "passwordLabel": "Password",
+    "passwordPlaceholder": "••••••••",
+    "signInButton": "Sign In",
+    "signingIn": "Signing in...",
+    "loginFailed": "Login failed. Please try again.",
+    "networkError": "Network error. Please try again later."
   }
 
 }

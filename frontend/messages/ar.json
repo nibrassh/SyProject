@@ -77,6 +77,17 @@
       "position": "منصبك الوظيفي",
       "message": "أخبرنا عن طلبك..."
     }
+  },
+  "SignIn": {
+    "signInTitle": "تسجيل الدخول",
+    "emailLabel": "البريد الإلكتروني",
+    "emailPlaceholder": "بريدك@الإلكتروني",
+    "passwordLabel": "كلمة المرور",
+    "passwordPlaceholder": "••••••••",
+    "signInButton": "تسجيل الدخول",
+    "signingIn": "جاري تسجيل الدخول...",
+    "loginFailed": "فشل تسجيل الدخول. يرجى المحاولة مرة أخرى.",
+    "networkError": "خطأ في الشبكة. يرجى المحاولة لاحقًا."
   }
 
 }

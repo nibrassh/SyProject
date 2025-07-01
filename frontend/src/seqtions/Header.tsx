@@ -60,7 +60,7 @@ export default function Header() {
         {/* Navigation menu */}
         <nav
           className={`${
-            mobileMenuOpen ? "block" : "hidden"
+            mobileMenuOpen ? "block " : "hidden"
           } md:flex md:items-center w-full md:w-auto mt-4 md:mt-0`}
         >
           <div className="flex flex-col md:flex-row md:space-x-6 space-y-4 md:space-y-0">
