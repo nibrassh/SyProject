@@ -52,10 +52,10 @@ export default function HeroSection() {
         </div>
 
         <div className="mt-10 md:mt-12 space-y-3 sm:space-y-0 sm:space-x-4">
-          <Link href={'/opportunities'} className="px-6 py-2.5 sm:px-8 sm:py-3 bg-indigo-600 text-white rounded-full font-medium hover:bg-indigo-700 transition-colors shadow-md hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
+          <Link href={'/opportunities'} className="text-center px-6 py-2.5 sm:px-8 sm:py-3 bg-indigo-600 text-white rounded-full font-medium hover:bg-indigo-700 transition-colors shadow-md hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 mx-1.5">
             {t('join_now')}
           </Link>
-          <Link href={'/about'} className="px-6 py-2.5 sm:px-8 sm:py-3 bg-white text-indigo-600 border border-indigo-200 rounded-full font-medium hover:bg-indigo-50 transition-colors shadow-md hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
+          <Link href={'/about'} className="text-center px-6 py-2.5 sm:px-8 sm:py-3 bg-white text-indigo-600 border border-indigo-200 rounded-full font-medium hover:bg-indigo-50 transition-colors shadow-md hover:shadow-lg mx-1.5 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
             {t('learn_more')}
           </Link>
         </div>
