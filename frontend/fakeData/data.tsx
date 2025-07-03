@@ -117,3 +117,11 @@ export const opportunities = [
     shortDescription: "New regional railway hub with modern passenger facilities"
   }
 ];
+
+export const adminUser = {
+  name:"belal",
+  email:"belal.alkador1@gmail.com",
+  password:"12345",
+  isAdmin:true,
+  ok:true
+}
