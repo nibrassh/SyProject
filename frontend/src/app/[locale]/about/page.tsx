@@ -1,8 +1,53 @@
 import Layout from "@/Layouts/Layout"
 import Image from "next/image"
+import { setRequestLocale } from 'next-intl/server'
 import { useTranslations } from 'next-intl'
+import { Metadata } from 'next'
 
-export default function AboutPage() {
+// تأكد من أن مسار ملفات الترجمات صحيح
+import enMessages from '../../../../messages/en.json'
+import arMessages from '../../../../messages/ar.json'
+
+const messages = {
+  en: enMessages,
+  ar: arMessages
+}
+
+export async function generateStaticParams() {
+  return [{ locale: 'en' }, { locale: 'ar' }]
+}
+
+export async function generateMetadata({ params: { locale } }: { 
+  params: { locale: string } 
+}): Promise<Metadata> {
+  const localeMessages = messages[locale as keyof typeof messages]
+  return {
+    title: localeMessages.about.metadata.title,
+    description: localeMessages.about.metadata.description,
+    openGraph: {
+      title: localeMessages.about.metadata.title,
+      description: localeMessages.about.metadata.description,
+      images: [{
+        url: '/images/about-og.jpg',
+        width: 1200,
+        height: 630,
+        alt: localeMessages.about.metadata.title,
+      }]
+    },
+    alternates: {
+      canonical: '/about',
+      languages: {
+        'en-US': '/en/about',
+        'ar-SA': '/ar/about'
+      }
+    }
+  }
+}
+
+export default function AboutPage({ params: { locale } }: { 
+  params: { locale: string } 
+}) {
+  setRequestLocale(locale)
   const t = useTranslations('about')
 
   return (
@@ -33,9 +78,10 @@ export default function AboutPage() {
           <div className={`grid md:grid-cols-2 gap-12 items-center ${t('direction') === 'rtl' ? 'md:flex-row-reverse' : ''}`}>
             <div className="relative h-80 rounded-lg overflow-hidden shadow-xl">
               <Image
-                src="/images.jpg" 
+                src="/images.jpg"
                 alt={t('vision_image_alt')}
                 fill
+                sizes="(max-width: 768px) 100vw, 50vw"
                 className="object-cover"
                 priority
               />
@@ -52,7 +98,6 @@ export default function AboutPage() {
         </div>
       </section>
 
-      {/* Why Section */}
       <section className="py-20 bg-gray-50">
         <div className="container mx-auto px-4 max-w-4xl text-center">
           <h2 className="text-3xl md:text-4xl font-light text-blue-800 mb-4">

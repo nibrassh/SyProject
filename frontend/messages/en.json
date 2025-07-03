@@ -25,6 +25,11 @@
     "visionaries": "Visionaries"
   },
    "about": {
+     "metadata": {
+      "title": "About Our Company | Your Brand Name",
+      "description": "Learn about our vision, mission, and values. Discover what makes us unique in the industry.",
+      "keywords": "about us, company history, our mission, our vision, company values"
+    },
     "hero_title": "About Our Mission",
     "vision_title": "Our Vision",
     "vision_description": "We envision a rebuilt Syria where innovation, expertise, and investment converge to create thriving communities and a resilient future. Rebuilding-Syria.com aspires to be the cornerstone of this transformation — a beacon of hope and proof of collective action.",
