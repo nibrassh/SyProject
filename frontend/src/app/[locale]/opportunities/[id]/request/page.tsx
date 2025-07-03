@@ -1,5 +1,5 @@
 'use client'
-import Layout from "@/Layout/Layout"
+import Layout from "@/Layouts/Layout"
 import { useState } from 'react'
 import { FaUser, FaEnvelope, FaPhone, FaBuilding, FaBriefcase, FaClock, FaPaperclip, FaPaperPlane } from 'react-icons/fa'
 import { useTranslations } from 'next-intl'

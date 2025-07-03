@@ -2,7 +2,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useTranslations } from "next-intl";
-import Layout from "@/Layout/Layout";
+import Layout from "@/Layouts/Layout";
 import { FiMail, FiLock, FiLoader } from "react-icons/fi";
 import { adminUser } from "../../../../fakeData/data";
 

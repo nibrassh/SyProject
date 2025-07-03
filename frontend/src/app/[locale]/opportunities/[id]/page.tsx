@@ -1,5 +1,5 @@
 'use client'
-import Layout from "@/Layout/Layout";
+import Layout from "@/Layouts/Layout";
 import { opportunities } from '../../../../../fakeData/data';
 import Image from 'next/image';
 import Link from 'next/link';

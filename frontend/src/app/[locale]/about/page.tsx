@@ -1,4 +1,4 @@
-import Layout from "@/Layout/Layout"
+import Layout from "@/Layouts/Layout"
 import Image from "next/image"
 import { useTranslations } from 'next-intl'
 
