@@ -63,7 +63,7 @@ export default function OpportunitiesMap({ opportunities }: { opportunities: Opp
               position={opp.location}
               icon={createCustomIcon()}
             >
-              <Popup className="custom-popup">
+              <Popup>
                 <div className="space-y-3 min-w-[250px]">
                   <h3 className="font-bold text-lg text-blue-600">{opp.name}</h3>
                   <div className="relative w-full h-32 rounded-md overflow-hidden">

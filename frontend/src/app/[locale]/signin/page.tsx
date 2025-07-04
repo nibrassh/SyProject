@@ -24,37 +24,41 @@ export default function SignInPage() {
     }));
   };
 
-  const handleSubmit = async (e:  React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    setLoading(true);
-    setError("");
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  e.preventDefault();
+  setLoading(true);
+  setError("");
 
-    try {
- // if there is backend  can use it or axios lib    
-//  const response = await fetch("/api/auth/signin", {
-//         method: "POST",
-//         headers: { "Content-Type": "application/json" },
-//         body: JSON.stringify(formData),
-//       });
+  try {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_SITE_URL}/api/signin`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        email: formData.email,
+        password: formData.password
+      }),
+      credentials: 'include' // Important for cookies
+    });
 
-let response ={}
-      if(adminUser.email=== formData.email && adminUser.password===formData.password){
-        response=adminUser
-      }
-     
-       
-      if (response.ok) {
-        router.push("/admin/dashbord");
-      } else {
-          setError(t("loginFailed"));
-      }
-    } catch (err) {
-      setError(t("networkError" + err));
-    } finally {
-      setLoading(false);
+    const data = await response.json();
+
+    if (response.ok && data.success) {
+      // Set access token in cookies (handled automatically with credentials: 'include')
+      // If you need to set additional client-side cookies:
+      document.cookie = `isAdmin=true; path=/; max-age=${60 * 60 * 24}`; // 1 day
+      document.cookie = `accessToken=${data.accessToken}; path=/; max-age=${60 * 60 * 24}`;
+      
+      router.push("/admin");
+    } else {
+      setError(data.message || t("loginFailed"));
     }
-  };
-
+  } catch (err) {
+    console.error("Login error:", err);
+    setError(t("networkError"));
+  } finally {
+    setLoading(false);
+  }
+};
   return (
     <Layout>
       <div className="min-h-[calc(100vh-160px)] flex items-center justify-center p-4 bg-gradient-to-br from-indigo-900 via-purple-900 to-blue-900">

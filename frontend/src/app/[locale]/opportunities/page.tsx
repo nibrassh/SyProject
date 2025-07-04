@@ -1,4 +1,3 @@
-// app/[locale]/opportunities/page.tsx
 import Layout from "@/Layouts/Layout"
 import OpportunitiesMap from "@/components/OpportunitiesMap"
 
@@ -13,9 +12,8 @@ interface Opportunity {
 }
 
 export default async function OpportunitiesPage() {
-  // Fetch data from your API route
   const response = await fetch(`${process.env.NEXT_PUBLIC_SITE_URL}/api/opportunities`, {
-    next: { revalidate: 3600 } // Revalidate every hour
+    next: { revalidate: 3600 } 
   });
 
   if (!response.ok) {

@@ -4,7 +4,6 @@ import { setRequestLocale } from 'next-intl/server'
 import { useTranslations } from 'next-intl'
 import { Metadata } from 'next'
 
-// تأكد من أن مسار ملفات الترجمات صحيح
 import enMessages from '../../../../messages/en.json'
 import arMessages from '../../../../messages/ar.json'
 

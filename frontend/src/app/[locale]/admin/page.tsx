@@ -1,3 +1,4 @@
+import withAdmin from '@/components/IsAdmin'
 import AdminLayout from '@/Layouts/AdminLayout'
 import React from 'react'
 
@@ -38,4 +39,4 @@ function page() {
   )
 }
 
-export default page
+export default withAdmin(page)
