@@ -4,6 +4,7 @@ import morgan from 'morgan';
 import cookieParser from 'cookie-parser';
 import dotenv from 'dotenv';
 import Database from './config/dbConnect.js'; 
+import authRoute from './routes/authRoutes.js';
 
 dotenv.config();
 
@@ -21,6 +22,8 @@ app.use(morgan('dev'));
 app.get('/', (req, res) => {
   res.send('Server is running!');
 });
+
+app.use('api/auth/v1',authRoute)
 
 // Error handling middleware
 app.use((err, req, res, next) => {
