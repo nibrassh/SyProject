@@ -13,7 +13,7 @@ export default function withAdmin(Component) {
             });
     
       if (!res.ok) {
-        throw new Error('Failed to fetch admin status.');
+        throw new Error('Failed to fetch admin status');
       }
       
       const data = await res.json();
