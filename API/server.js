@@ -23,7 +23,7 @@ app.get('/', (req, res) => {
   res.send('Server is running!');
 });
 
-app.use('api/auth/v1',authRoute)
+app.use('/api/auth/v1',authRoute)
 
 // Error handling middleware
 app.use((err, req, res, next) => {
@@ -31,7 +31,7 @@ app.use((err, req, res, next) => {
   res.status(500).json({ error: 'Internal server error' });
 });
 
-// Connect to database and start server
+
 const PORT = process.env.PORT || 5000;
 
 Database.connect()
