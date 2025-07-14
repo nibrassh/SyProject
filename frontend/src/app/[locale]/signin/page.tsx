@@ -4,7 +4,7 @@ import { useRouter } from "next/navigation";
 import { useTranslations } from "next-intl";
 import Layout from "@/Layouts/Layout";
 import { FiMail, FiLock, FiLoader } from "react-icons/fi";
-import { adminUser } from "../../../../fakeData/data";
+import axios from 'axios';
 
 export default function SignInPage() {
   const t = useTranslations("SignIn");
@@ -24,37 +24,46 @@ export default function SignInPage() {
     }));
   };
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+
+const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
   e.preventDefault();
   setLoading(true);
   setError("");
 
   try {
-    const response = await fetch(`${process.env.NEXT_PUBLIC_SITE_URL}/api/signin`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
+    const { data } = await axios.post(
+      `${process.env.NEXT_PUBLIC_API_BASE_UR}/api/auth/v1/signin`,
+      {
         email: formData.email,
         password: formData.password
-      }),
-      credentials: 'include' // Important for cookies
-    });
+      },
+      {
+        withCredentials: true, 
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      }
+    );
 
-    const data = await response.json();
-
-    if (response.ok && data.success) {
-      // Set access token in cookies (handled automatically with credentials: 'include')
-      // If you need to set additional client-side cookies:
-      document.cookie = `isAdmin=true; path=/; max-age=${60 * 60 * 24}`; // 1 day
-      document.cookie = `accessToken=${data.accessToken}; path=/; max-age=${60 * 60 * 24}`;
-      
+    if (data.success) {
+      alert(data)
       router.push("/admin");
     } else {
       setError(data.message || t("loginFailed"));
     }
   } catch (err) {
     console.error("Login error:", err);
-    setError(t("networkError"));
+    
+    // Type-safe error handling
+    if (axios.isAxiosError(err)) {
+      setError(
+        err.response?.data?.message || 
+        err.message || 
+        t("networkError")
+      );
+    } else {
+      setError(t("networkError"));
+    }
   } finally {
     setLoading(false);
   }
