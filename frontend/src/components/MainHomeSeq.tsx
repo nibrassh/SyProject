@@ -16,52 +16,148 @@ export default function HeroSection() {
     t('visionaries')
   ]
 
- 
   useEffect(() => {
     const timer = setInterval(() => {
       setCurrentProfession(prev => (prev + 1) % professions.length)
-    }, 2500) // Slightly faster rotation
+    }, 2500)
     return () => clearInterval(timer)
   }, [professions.length])
 
   return (
-    <section className="relative min-h-[90vh] md:min-h-[80vh] flex items-center justify-center bg-gradient-to-br from-indigo-50 to-white">
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8 text-center">
-        <div className="mb-8 md:mb-12">
-          <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-4 md:mb-6 leading-tight">
-            <span className="block text-indigo-600">{t('discover')}</span>
-            <span className="block text-gray-800">{t('collaborate')}</span>
-            <span className="block text-indigo-600">{t('succeed')}</span>
-          </h1>
-        </div>
+    <section className="relative h-screen w-full flex flex-col justify-center overflow-hidden pt-16 pb-12 sm:pt-20 sm:pb-16">
+      {/* Enhanced Background with Multiple Gradients */}
+      <div className="absolute inset-0 bg-gradient-to-br from-indigo-50 via-blue-50 to-purple-50"></div>
+      <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-white/30 to-indigo-100/50"></div>
 
-        <div className="max-w-2xl mx-auto">
-          <h2 className="text-xl sm:text-2xl md:text-3xl font-semibold mb-6 md:mb-8">
-            <span className="text-gray-600">{t('join_forces_with')}</span>{' '}
-            <span className="text-indigo-600 font-bold relative inline-block min-w-[180px] sm:min-w-[220px] h-[40px] sm:h-[50px] md:h-[60px]">
-              {professions.map((profession, index) => (
-                <span 
-                  key={index}
-                  className={`absolute inset-0 transition-opacity duration-700 ease-in-out ${index === currentProfession ? 'opacity-100' : 'opacity-0'}`}
-                >
-                  {profession}
+      {/* Animated Background Elements - Full Screen Coverage */}
+      <div className="absolute top-0 left-0 w-1/3 h-1/3 bg-indigo-200/20 rounded-full blur-3xl animate-pulse"></div>
+      <div className="absolute bottom-0 right-0 w-1/2 h-1/2 bg-purple-200/20 rounded-full blur-3xl animate-pulse delay-1000"></div>
+      <div className="absolute top-1/3 right-1/4 w-1/4 h-1/4 bg-blue-200/20 rounded-full blur-3xl animate-pulse delay-500"></div>
+      <div className="absolute bottom-1/4 left-1/3 w-1/3 h-1/3 bg-pink-200/15 rounded-full blur-3xl animate-pulse delay-2000"></div>
+
+      {/* Main Content Container - Accounting for Header and Footer */}
+      <div className="relative z-10 flex-1 flex flex-col justify-center items-center px-4 sm:px-6 lg:px-8 h-full max-h-[calc(100vh-100px)]">
+        <div className="w-full max-w-5xl mx-auto text-center">
+          {/* Main Heading with Enhanced Typography - Three words in one line */}
+          <div className="mb-3 md:mb-4">
+            <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-tajawal-extrabold mb-2 leading-tight tracking-tight">
+              <div className="flex flex-wrap justify-center items-center gap-2 md:gap-3 lg:gap-4">
+                <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 via-purple-600 to-blue-600 animate-gradient-x drop-shadow-lg">
+                  {t('discover')}
                 </span>
-              ))}
-            </span>
-          </h2>
+                <span className="text-gray-800 drop-shadow-lg">
+                  {t('collaborate')}
+                </span>
+                <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 animate-gradient-x drop-shadow-lg">
+                  {t('succeed')}
+                </span>
+              </div>
+            </h1>
+          </div>
+
+          {/* Enhanced Subtitle with Better Animation - More organized layout */}
+          <div className="max-w-5xl mx-auto mb-3 md:mb-4 text-center">
+            <div className="mb-2 md:mb-3">
+              <h2 className="text-lg sm:text-xl md:text-2xl font-tajawal-bold leading-relaxed mb-2">
+              <span className="relative inline-block">
+                <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 to-purple-600 font-bold min-w-[120px] sm:min-w-[140px] md:min-w-[160px] lg:min-w-[180px] inline-block h-[1.2em]">
+                 
+                </span>
+                {/* Animated underline with better positioning */}
+                <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-3/4 h-1 bg-gradient-to-r from-indigo-500 via-purple-500 to-blue-500 animate-pulse rounded-full"></div>
+              </span>
+            </h2>
+          </div>
+
+            {/* Additional descriptive text with better spacing */}
+            <div className="max-w-3xl mx-auto">
+              <p className="text-gray-600 text-sm sm:text-base md:text-lg leading-relaxed px-4 font-tajawal-light">
+                {t('description')}
+              </p>
+            </div>
         </div>
 
-        <div className="mt-10 md:mt-12 space-y-3 sm:space-y-0 sm:space-x-4">
-          <Link href={'/opportunities'} className="text-center px-6 py-2.5 sm:px-8 sm:py-3 bg-indigo-600 text-white rounded-full font-medium hover:bg-indigo-700 transition-colors shadow-md hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 mx-1.5">
-            {t('join_now')}
-          </Link>
-          <Link href={'/about'} className="text-center px-6 py-2.5 sm:px-8 sm:py-3 bg-white text-indigo-600 border border-indigo-200 rounded-full font-medium hover:bg-indigo-50 transition-colors shadow-md hover:shadow-lg mx-1.5 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
-            {t('learn_more')}
-          </Link>
+          {/* Enhanced Call-to-Action Buttons - Better Organization */}
+          <div className="max-w-2xl mx-auto mb-4 md:mb-6">
+            <div className="flex flex-col sm:flex-row gap-3 justify-center items-center">
+              <Link
+                href={'/opportunities'}
+                className="group relative inline-flex items-center justify-center px-4 py-2 sm:px-6 sm:py-3 text-sm sm:text-base md:text-lg font-tajawal-bold text-white bg-gradient-to-r from-indigo-600 via-purple-600 to-blue-600 rounded-xl shadow-lg hover:shadow-xl transform hover:-translate-y-1 hover:scale-105 transition-all duration-300 ease-out focus:outline-none focus:ring-4 focus:ring-indigo-300 w-full sm:w-auto sm:min-w-[180px] overflow-hidden"
+            >
+              <span className="absolute inset-0 bg-gradient-to-r from-indigo-700 via-purple-700 to-blue-700 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"></span>
+              <span className="absolute inset-0 bg-white/20 transform -skew-x-12 -translate-x-full group-hover:translate-x-full transition-transform duration-700 ease-out"></span>
+              <span className="relative flex items-center gap-3">
+                <svg className="w-4 h-4 transform group-hover:rotate-12 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
+                </svg>
+                {t('join_now')}
+                <svg className="w-4 h-4 transform group-hover:translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                </svg>
+              </span>
+            </Link>
+
+              <Link
+                href={'/about'}
+                className="group relative inline-flex items-center justify-center px-4 py-2 sm:px-6 sm:py-3 text-sm sm:text-base md:text-lg font-tajawal-bold text-indigo-600 bg-white/90 backdrop-blur-sm border-2 border-indigo-200 rounded-xl shadow-lg hover:shadow-xl transform hover:-translate-y-1 hover:scale-105 transition-all duration-300 ease-out focus:outline-none focus:ring-4 focus:ring-indigo-300 w-full sm:w-auto sm:min-w-[180px] overflow-hidden"
+            >
+              <span className="absolute inset-0 bg-gradient-to-r from-indigo-50 to-purple-50 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"></span>
+              <span className="absolute inset-0 bg-indigo-100/30 transform -skew-x-12 -translate-x-full group-hover:translate-x-full transition-transform duration-700 ease-out"></span>
+              <span className="relative flex items-center gap-2">
+                <svg className="w-4 h-4 transform group-hover:rotate-12 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+                </svg>
+                {t('learn_more')}
+                <svg className="w-4 h-4 transform group-hover:scale-110 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+              </span>
+            </Link>
+          </div>
         </div>
 
-        <div className="absolute bottom-0 left-0 right-0 h-20 bg-gradient-to-t from-white to-transparent pointer-events-none"></div>
+          {/* Features Section - Better Organization */}
+          <div className="max-w-5xl mx-auto mb-4 md:mb-6">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6">
+              <div className="text-center group p-3 md:p-4 rounded-xl bg-white/50 backdrop-blur-sm border border-gray-100 hover:border-indigo-200 hover:shadow-lg transition-all duration-300">
+                <div className="w-12 h-12 md:w-16 md:h-16 mx-auto mb-3 bg-gradient-to-r from-indigo-500 to-purple-500 rounded-full flex items-center justify-center transform group-hover:scale-110 transition-all duration-300 shadow-lg">
+                  <svg className="w-6 h-6 md:w-8 md:h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
+                  </svg>
+                </div>
+                <h3 className="text-base md:text-lg font-tajawal-bold text-gray-800 mb-2">سرعة في التنفيذ</h3>
+                <p className="text-gray-600 leading-relaxed text-xs md:text-sm font-tajawal-regular">ربط سريع بين المستثمرين والمشاريع المبتكرة</p>
+              </div>
+
+              <div className="text-center group p-3 md:p-4 rounded-xl bg-white/50 backdrop-blur-sm border border-gray-100 hover:border-purple-200 hover:shadow-lg transition-all duration-300">
+                <div className="w-12 h-12 md:w-16 md:h-16 mx-auto mb-3 bg-gradient-to-r from-purple-500 to-blue-500 rounded-full flex items-center justify-center transform group-hover:scale-110 transition-all duration-300 shadow-lg">
+                  <svg className="w-6 h-6 md:w-8 md:h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                  </svg>
+                </div>
+                <h3 className="text-base md:text-lg font-tajawal-bold text-gray-800 mb-2">موثوقية عالية</h3>
+                <p className="text-gray-600 leading-relaxed text-xs md:text-sm font-tajawal-regular">فرص استثمارية مدروسة ومضمونة النجاح</p>
+              </div>
+
+              <div className="text-center group p-3 md:p-4 rounded-xl bg-white/50 backdrop-blur-sm border border-gray-100 hover:border-blue-200 hover:shadow-lg transition-all duration-300">
+                <div className="w-12 h-12 md:w-16 md:h-16 mx-auto mb-3 bg-gradient-to-r from-blue-500 to-indigo-500 rounded-full flex items-center justify-center transform group-hover:scale-110 transition-all duration-300 shadow-lg">
+                  <svg className="w-6 h-6 md:w-8 md:h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+                  </svg>
+                </div>
+                <h3 className="text-base md:text-lg font-tajawal-bold text-gray-800 mb-2">شبكة واسعة</h3>
+                <p className="text-gray-600 leading-relaxed text-xs md:text-sm font-tajawal-regular">مجتمع من المبدعين والمستثمرين المتميزين</p>
+              </div>
+          </div>
+        </div>
+
+        </div>
+
+
       </div>
+
+      {/* Enhanced Bottom Gradient */}
+      <div className="absolute bottom-0 left-0 right-0 h-20 bg-gradient-to-t from-white via-white/80 to-transparent pointer-events-none"></div>
     </section>
   )
 }

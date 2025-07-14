@@ -12,8 +12,11 @@ interface Opportunity {
 }
 
 export default async function OpportunitiesPage() {
-  const response = await fetch(`${process.env.NEXT_PUBLIC_SITE_URL}/api/opportunities`, {
-    next: { revalidate: 3600 } 
+  // Get the base URL, fallback to localhost for development
+  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000';
+
+  const response = await fetch(`${baseUrl}/api/opportunities`, {
+    next: { revalidate: 3600 }
   });
 
   if (!response.ok) {
