@@ -5,6 +5,17 @@
   --font-family-sans: 'Tajawal', ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
 }
 
+/* Fix Arabic text rendering and prevent clipping */
+.font-tajawal-extrabold {
+  font-family: 'Tajawal', sans-serif;
+  font-weight: 900;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow: visible;
+  line-height: 1.4;
+}
+
 /* Custom animations for enhanced hero section */
 @keyframes gradient-x {
   0%, 100% {
@@ -45,6 +56,16 @@
 
 .animate-glow {
   animation: glow 2s ease-in-out infinite;
+}
+
+/* Prevent text clipping with gradients */
+.bg-clip-text {
+  -webkit-background-clip: text;
+  background-clip: text;
+  padding: 2px 4px;
+  margin: 0 2px;
+  display: inline-block;
+  overflow: visible;
 }
 
 /* Smooth scrolling and prevent overflow */

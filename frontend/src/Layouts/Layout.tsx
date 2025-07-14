@@ -3,10 +3,10 @@ import Header from "@/seqtions/Header";
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   return (
-    <div className="flex flex-col h-screen overflow-hidden">
+    <div className="flex flex-col min-h-screen">
       <Header />
 
-      <main className="flex-1 overflow-hidden">
+      <main className="flex-1">
         {children}
       </main>
 

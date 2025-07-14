@@ -26,7 +26,7 @@ export default async function LocaleLayout({
           rel="stylesheet"
         />
       </head>
-      <body className="h-full overflow-hidden">
+      <body className="h-full">
         <NextIntlClientProvider>{children}</NextIntlClientProvider>
       </body>
     </html>

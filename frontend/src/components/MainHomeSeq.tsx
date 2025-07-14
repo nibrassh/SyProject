@@ -24,7 +24,7 @@ export default function HeroSection() {
   }, [professions.length])
 
   return (
-    <section className="relative h-screen w-full flex flex-col justify-center overflow-hidden pt-16 pb-12 sm:pt-20 sm:pb-16">
+    <section className="relative w-full flex flex-col justify-center overflow-hidden py-8 sm:py-12" style={{height: 'calc(100vh - 140px)'}}>
       {/* Enhanced Background with Multiple Gradients */}
       <div className="absolute inset-0 bg-gradient-to-br from-indigo-50 via-blue-50 to-purple-50"></div>
       <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-white/30 to-indigo-100/50"></div>
@@ -36,19 +36,19 @@ export default function HeroSection() {
       <div className="absolute bottom-1/4 left-1/3 w-1/3 h-1/3 bg-pink-200/15 rounded-full blur-3xl animate-pulse delay-2000"></div>
 
       {/* Main Content Container - Accounting for Header and Footer */}
-      <div className="relative z-10 flex-1 flex flex-col justify-center items-center px-4 sm:px-6 lg:px-8 h-full max-h-[calc(100vh-100px)]">
+      <div className="relative z-10 flex-1 flex flex-col justify-center items-center px-4 sm:px-6 lg:px-8 h-full">
         <div className="w-full max-w-5xl mx-auto text-center">
           {/* Main Heading with Enhanced Typography - Three words in one line */}
-          <div className="mb-3 md:mb-4">
-            <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-tajawal-extrabold mb-2 leading-tight tracking-tight">
-              <div className="flex flex-wrap justify-center items-center gap-2 md:gap-3 lg:gap-4">
-                <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 via-purple-600 to-blue-600 animate-gradient-x drop-shadow-lg">
+          <div className="mb-2 md:mb-3">
+            <h1 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-tajawal-extrabold mb-2 leading-relaxed tracking-normal">
+              <div className="flex flex-wrap justify-center items-center gap-2 md:gap-3 lg:gap-4 px-2">
+                <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 via-purple-600 to-blue-600 animate-gradient-x drop-shadow-lg px-1 py-1">
                   {t('discover')}
                 </span>
-                <span className="text-gray-800 drop-shadow-lg">
+                <span className="text-gray-800 drop-shadow-lg px-1 py-1">
                   {t('collaborate')}
                 </span>
-                <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 animate-gradient-x drop-shadow-lg">
+                <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 animate-gradient-x drop-shadow-lg px-1 py-1">
                   {t('succeed')}
                 </span>
               </div>
@@ -56,29 +56,19 @@ export default function HeroSection() {
           </div>
 
           {/* Enhanced Subtitle with Better Animation - More organized layout */}
-          <div className="max-w-5xl mx-auto mb-3 md:mb-4 text-center">
-            <div className="mb-2 md:mb-3">
-              <h2 className="text-lg sm:text-xl md:text-2xl font-tajawal-bold leading-relaxed mb-2">
-              <span className="relative inline-block">
-                <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 to-purple-600 font-bold min-w-[120px] sm:min-w-[140px] md:min-w-[160px] lg:min-w-[180px] inline-block h-[1.2em]">
-                 
-                </span>
-                {/* Animated underline with better positioning */}
-                <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-3/4 h-1 bg-gradient-to-r from-indigo-500 via-purple-500 to-blue-500 animate-pulse rounded-full"></div>
-              </span>
-            </h2>
-          </div>
+          <div className="max-w-5xl mx-auto mb-2 md:mb-3 text-center">
+           
 
             {/* Additional descriptive text with better spacing */}
             <div className="max-w-3xl mx-auto">
-              <p className="text-gray-600 text-sm sm:text-base md:text-lg leading-relaxed px-4 font-tajawal-light">
+              <p className="text-gray-600 text-xs sm:text-sm md:text-base leading-relaxed px-4 font-tajawal-light">
                 {t('description')}
               </p>
             </div>
         </div>
 
           {/* Enhanced Call-to-Action Buttons - Better Organization */}
-          <div className="max-w-2xl mx-auto mb-4 md:mb-6">
+          <div className="max-w-2xl mx-auto mb-2 md:mb-3">
             <div className="flex flex-col sm:flex-row gap-3 justify-center items-center">
               <Link
                 href={'/opportunities'}
@@ -117,7 +107,7 @@ export default function HeroSection() {
         </div>
 
           {/* Features Section - Better Organization */}
-          <div className="max-w-5xl mx-auto mb-4 md:mb-6">
+          <div className="max-w-5xl mx-auto mb-2 md:mb-3">
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6">
               <div className="text-center group p-3 md:p-4 rounded-xl bg-white/50 backdrop-blur-sm border border-gray-100 hover:border-indigo-200 hover:shadow-lg transition-all duration-300">
                 <div className="w-12 h-12 md:w-16 md:h-16 mx-auto mb-3 bg-gradient-to-r from-indigo-500 to-purple-500 rounded-full flex items-center justify-center transform group-hover:scale-110 transition-all duration-300 shadow-lg">
