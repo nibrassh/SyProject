@@ -2,7 +2,9 @@
   "header": {
     "home": "Home",
     "about": "About Us",
-    "opportunities": "Opportunities"
+    "opportunities": "Opportunities",
+    "admin": "Admin",
+    "signin": "Sign In"
   },
   "footer": {
     "copyright": "Investment Opportunities Map. All rights reserved.",
@@ -23,7 +25,21 @@
     "startups": "Startups",
     "innovators": "Innovators",
     "visionaries": "Visionaries",
-    "description": "A platform connecting investors and developers to create innovative investment opportunities in Syria"
+    "description": "A platform connecting investors and developers to create innovative investment opportunities in Syria",
+    "features": {
+      "speed": {
+        "title": "Fast Implementation",
+        "description": "Quick connection between investors and innovative projects"
+      },
+      "reliability": {
+        "title": "High Reliability",
+        "description": "Well-studied investment opportunities with guaranteed success"
+      },
+      "network": {
+        "title": "Wide Network",
+        "description": "A community of distinguished creators and investors"
+      }
+    }
   },
    "about": {
      "metadata": {
@@ -86,6 +102,8 @@
   },
   "SignIn": {
     "signInTitle": "Sign In",
+    "welcomeBack": "Welcome back",
+    "secureLogin": "Protected by advanced security",
     "emailLabel": "Email",
     "emailPlaceholder": "your@email.com",
     "passwordLabel": "Password",
@@ -94,6 +112,25 @@
     "signingIn": "Signing in...",
     "loginFailed": "Login failed. Please try again.",
     "networkError": "Network error. Please try again later."
+  },
+  "opportunities": {
+    "title": "Investment Opportunities System",
+    "companies": "Companies",
+    "branches": "Branches",
+    "centers": "Centers",
+    "mapView": "Map View",
+    "listView": "List View",
+    "explore": "Explore",
+    "viewDetails": "View Details",
+    "budget": "Budget",
+    "duration": "Duration",
+    "requiredBudget": "Required Budget",
+    "implementationDuration": "Implementation Duration",
+    "viewFullDetails": "View Full Details",
+    "requestInvestment": "Request Investment",
+    "alreadyRequested": "Already Requested",
+    "requestSent": "Your request has been sent successfully",
+    "alreadyRequestedMessage": "You have already requested this opportunity"
   }
 
 }

@@ -61,6 +61,8 @@ export default function Header() {
     { href: "/", label: t("home") },
     { href: "/about", label: t("about") },
     { href: "/opportunities", label: t("opportunities") },
+    { href: "/admin", label: t("admin") },
+
   ];
 
   return (

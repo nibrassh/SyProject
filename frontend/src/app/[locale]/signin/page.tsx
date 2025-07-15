@@ -70,91 +70,130 @@ const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
 };
   return (
     <Layout>
-      <div className="min-h-[calc(100vh-160px)] flex items-center justify-center p-4 bg-gradient-to-br from-indigo-900 via-purple-900 to-blue-900">
-        <div className="w-full max-w-md">
+      <div className="min-h-[calc(100vh-160px)] flex items-center justify-center p-4 bg-white relative overflow-hidden font-tajawal">
+        {/* Background decorative elements */}
+        <div className="absolute inset-0 opacity-20">
+          <div className="absolute inset-0 bg-gradient-to-br from-indigo-50 via-purple-50 to-blue-50"></div>
+        </div>
+        <div className="absolute top-10 left-10 w-32 h-32 bg-indigo-100/50 rounded-full blur-xl"></div>
+        <div className="absolute bottom-10 right-10 w-40 h-40 bg-purple-100/50 rounded-full blur-2xl"></div>
+        <div className="absolute top-1/2 left-1/4 w-24 h-24 bg-blue-100/50 rounded-full blur-xl"></div>
+        <div className="w-full max-w-md relative z-10">
+          {/* Logo or Brand Section */}
+          <div className="text-center mb-8">
+            <div className="inline-flex items-center justify-center w-20 h-20 bg-gradient-to-br from-indigo-500 to-purple-500 rounded-full shadow-lg mb-4">
+              <FiLock className="text-white text-2xl" />
+            </div>
+            <h1 className="text-4xl font-bold text-gray-800 mb-2 font-tajawal-bold">
+              {t("signInTitle")}
+            </h1>
+            <p className="text-gray-600 text-sm font-tajawal-medium">
+              {t("welcomeBack")}
+            </p>
+          </div>
+
           <form
             onSubmit={handleSubmit}
-            className="backdrop-blur-lg bg-white/10 p-8 rounded-2xl shadow-xl border border-white/20"
+            className="bg-white p-8 rounded-3xl shadow-2xl border border-gray-200 relative overflow-hidden"
           >
-            <h2 className="text-3xl font-bold text-white mb-8 text-center">
-              {t("signInTitle")}
-            </h2>
-
-            {error && (
-              <div className="mb-6 p-4 bg-red-400/20 text-red-100 text-sm rounded-lg backdrop-blur-sm border border-red-300/30">
-                {error}
-              </div>
-            )}
-
-            <div className="mb-6">
-              <label
-                htmlFor="email"
-                className="block text-sm font-medium text-white/80 mb-2"
-              >
-                {t("emailLabel")}
-              </label>
-              <div className="relative">
-                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                  <FiMail className="text-white/60" />
+            {/* Form background glow */}
+            <div className="absolute inset-0 bg-gradient-to-br from-indigo-50/30 via-transparent to-purple-50/30 rounded-3xl"></div>
+            <div className="relative z-10">
+              {error && (
+                <div className="mb-6 p-4 bg-red-50 text-red-700 text-sm rounded-xl border border-red-200 font-tajawal-medium">
+                  <div className="flex items-center gap-2">
+                    <div className="w-2 h-2 bg-red-500 rounded-full animate-pulse"></div>
+                    {error}
+                  </div>
                 </div>
-                <input
-                  type="email"
-                  id="email"
-                  name="email"
-                  value={formData.email}
-                  onChange={handleChange}
-                  required
-                  className="w-full pl-10 pr-4 py-3 bg-white/5 text-white border border-white/20 rounded-lg focus:outline-none focus:ring-2 focus:ring-white/30 focus:border-white/30 placeholder-white/40"
-                  placeholder={t("emailPlaceholder")}
-                />
-              </div>
-            </div>
-
-            <div className="mb-8">
-              <label
-                htmlFor="password"
-                className="block text-sm font-medium text-white/80 mb-2"
-              >
-                {t("passwordLabel")}
-              </label>
-              <div className="relative">
-                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                  <FiLock className="text-white/60" />
-                </div>
-                <input
-                  type="password"
-                  id="password"
-                  name="password"
-                  value={formData.password}
-                  onChange={handleChange}
-                  required
-                  className="w-full pl-10 pr-4 py-3 bg-white/5 text-white border border-white/20 rounded-lg focus:outline-none focus:ring-2 focus:ring-white/30 focus:border-white/30 placeholder-white/40"
-                  placeholder={t("passwordPlaceholder")}
-                />
-              </div>
-            </div>
-
-            <button
-              type="submit"
-              disabled={loading}
-              className={`w-full py-3 px-6 bg-white/10 text-white font-medium rounded-lg hover:bg-white/20 transition-all duration-300 border border-white/20 shadow-lg ${
-                loading
-                  ? "opacity-80 cursor-not-allowed"
-                  : "hover:shadow-white/10"
-              }`}
-            >
-              {loading ? (
-                <span className="flex items-center justify-center">
-                  <FiLoader className="animate-spin mr-3" />
-                  {t("signingIn")}
-                </span>
-              ) : (
-                <span className="flex items-center justify-center gap-2">
-                  {t("signInButton")}
-                </span>
               )}
-            </button>
+
+              <div className="mb-6">
+                <label
+                  htmlFor="email"
+                  className="block text-sm font-tajawal-bold text-gray-700 mb-3"
+                >
+                  {t("emailLabel")}
+                </label>
+                <div className="relative group">
+                  <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                    <FiMail className="text-gray-400 group-focus-within:text-indigo-500 transition-colors duration-300" />
+                  </div>
+                  <input
+                    type="email"
+                    id="email"
+                    name="email"
+                    value={formData.email}
+                    onChange={handleChange}
+                    required
+                    className="w-full pl-12 pr-4 py-4 bg-gray-50 text-gray-800 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500/50 focus:border-indigo-500 placeholder-gray-400 transition-all duration-300 hover:bg-gray-100 font-tajawal-medium"
+                    placeholder={t("emailPlaceholder")}
+                  />
+                  <div className="absolute inset-0 rounded-xl bg-gradient-to-r from-indigo-500/0 via-purple-500/0 to-blue-500/0 group-focus-within:from-indigo-500/5 group-focus-within:via-purple-500/3 group-focus-within:to-blue-500/5 transition-all duration-300 pointer-events-none"></div>
+                </div>
+              </div>
+
+              <div className="mb-8">
+                <label
+                  htmlFor="password"
+                  className="block text-sm font-tajawal-bold text-gray-700 mb-3"
+                >
+                  {t("passwordLabel")}
+                </label>
+                <div className="relative group">
+                  <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                    <FiLock className="text-gray-400 group-focus-within:text-indigo-500 transition-colors duration-300" />
+                  </div>
+                  <input
+                    type="password"
+                    id="password"
+                    name="password"
+                    value={formData.password}
+                    onChange={handleChange}
+                    required
+                    className="w-full pl-12 pr-4 py-4 bg-gray-50 text-gray-800 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500/50 focus:border-indigo-500 placeholder-gray-400 transition-all duration-300 hover:bg-gray-100 font-tajawal-medium"
+                    placeholder={t("passwordPlaceholder")}
+                  />
+                  <div className="absolute inset-0 rounded-xl bg-gradient-to-r from-indigo-500/0 via-purple-500/0 to-blue-500/0 group-focus-within:from-indigo-500/5 group-focus-within:via-purple-500/3 group-focus-within:to-blue-500/5 transition-all duration-300 pointer-events-none"></div>
+                </div>
+              </div>
+
+              <button
+                type="submit"
+                disabled={loading}
+                className={`group relative w-full py-4 px-6 bg-gradient-to-r from-indigo-500 to-purple-500 text-white font-tajawal-bold rounded-xl transition-all duration-300 shadow-xl overflow-hidden ${
+                  loading
+                    ? "opacity-80 cursor-not-allowed"
+                    : "hover:from-indigo-600 hover:to-purple-600 hover:shadow-2xl hover:shadow-indigo-500/25 transform hover:-translate-y-0.5"
+                }`}
+              >
+                {/* Button background effects */}
+                <div className="absolute inset-0 bg-white/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                <div className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/20 to-white/0 transform -skew-x-12 -translate-x-full group-hover:translate-x-full transition-transform duration-700 ease-out"></div>
+
+                <span className="relative z-10">
+                  {loading ? (
+                    <span className="flex items-center justify-center gap-3">
+                      <FiLoader className="animate-spin text-lg" />
+                      <span className="text-lg">{t("signingIn")}</span>
+                    </span>
+                  ) : (
+                    <span className="flex items-center justify-center gap-2 text-lg">
+                      {t("signInButton")}
+                      <div className="w-2 h-2 bg-white rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                    </span>
+                  )}
+                </span>
+              </button>
+            </div>
           </form>
+
+          {/* Footer text */}
+          <div className="text-center mt-6">
+            <p className="text-gray-500 text-sm font-tajawal-medium">
+              {t("secureLogin")}
+            </p>
+          </div>
         </div>
       </div>
     </Layout>

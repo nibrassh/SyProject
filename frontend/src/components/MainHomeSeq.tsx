@@ -115,8 +115,8 @@ export default function HeroSection() {
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
                   </svg>
                 </div>
-                <h3 className="text-base md:text-lg font-tajawal-bold text-gray-800 mb-2">سرعة في التنفيذ</h3>
-                <p className="text-gray-600 leading-relaxed text-xs md:text-sm font-tajawal-regular">ربط سريع بين المستثمرين والمشاريع المبتكرة</p>
+                <h3 className="text-base md:text-lg font-tajawal-bold text-gray-800 mb-2">{t('features.speed.title')}</h3>
+                <p className="text-gray-600 leading-relaxed text-xs md:text-sm font-tajawal-regular">{t('features.speed.description')}</p>
               </div>
 
               <div className="text-center group p-3 md:p-4 rounded-xl bg-white/50 backdrop-blur-sm border border-gray-100 hover:border-purple-200 hover:shadow-lg transition-all duration-300">

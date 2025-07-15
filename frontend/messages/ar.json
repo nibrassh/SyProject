@@ -2,7 +2,9 @@
   "header": {
     "home": "الرئيسية",
     "about": "من نحن",
-    "opportunities": "الفرص"
+    "opportunities": "الفرص الاستثمارية",
+    "admin": "الإدارة",
+    "signin": "تسجيل الدخول"
   },
     "footer": {
     "copyright": "خريطة الفرص الاستثمارية. جميع الحقوق محفوظة",
@@ -23,7 +25,21 @@
     "startups": "الشركات الناشئة",
     "innovators": "المبتكرين",
     "visionaries": "المبصرين",
-    "description": "منصة تربط بين المستثمرين والمطورين لخلق فرص استثمارية مبتكرة في سوريا"
+    "description": "منصة تربط بين المستثمرين والمطورين لخلق فرص استثمارية مبتكرة في سوريا",
+    "features": {
+      "speed": {
+        "title": "سرعة في التنفيذ",
+        "description": "ربط سريع بين المستثمرين والمشاريع المبتكرة"
+      },
+      "reliability": {
+        "title": "موثوقية عالية",
+        "description": "فرص استثمارية مدروسة ومضمونة النجاح"
+      },
+      "network": {
+        "title": "شبكة واسعة",
+        "description": "مجتمع من المبدعين والمستثمرين المتميزين"
+      }
+    }
   },
    "about": {
        "metadata": {
@@ -86,6 +102,8 @@
   },
   "SignIn": {
     "signInTitle": "تسجيل الدخول",
+    "welcomeBack": "مرحباً بك مرة أخرى",
+    "secureLogin": "محمي بأحدث تقنيات الأمان",
     "emailLabel": "البريد الإلكتروني",
     "emailPlaceholder": "بريدك@الإلكتروني",
     "passwordLabel": "كلمة المرور",
@@ -94,6 +112,25 @@
     "signingIn": "جاري تسجيل الدخول...",
     "loginFailed": "فشل تسجيل الدخول. يرجى المحاولة مرة أخرى.",
     "networkError": "خطأ في الشبكة. يرجى المحاولة لاحقًا."
+  },
+  "opportunities": {
+    "title": "نظام الفرص الاستثمارية",
+    "companies": "الشركات",
+    "branches": "الفروع",
+    "centers": "المراكز",
+    "mapView": "عرض الخريطة",
+    "listView": "عرض القائمة",
+    "explore": "استكشاف",
+    "viewDetails": "عرض التفاصيل",
+    "budget": "الميزانية",
+    "duration": "المدة",
+    "requiredBudget": "الميزانية المطلوبة",
+    "implementationDuration": "مدة التنفيذ",
+    "viewFullDetails": "عرض التفاصيل الكاملة",
+    "requestInvestment": "طلب الاستثمار",
+    "alreadyRequested": "تم الطلب مسبقاً",
+    "requestSent": "تم إرسال طلبك بنجاح",
+    "alreadyRequestedMessage": "لقد قمت بطلب هذه الفرصة مسبقاً"
   }
 
 }

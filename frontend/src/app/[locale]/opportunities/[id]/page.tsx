@@ -1,6 +1,6 @@
 'use client'
 import Layout from "@/Layouts/Layout";
-import { opportunities } from '../../../../../fakeData/data';
+import { opportunities } from '@/data/fakeData';
 import Image from 'next/image';
 import Link from 'next/link';
 import { FaMapMarkerAlt, FaCalendarAlt,  FaArrowLeft } from 'react-icons/fa';

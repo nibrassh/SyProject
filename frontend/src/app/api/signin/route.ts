@@ -1,5 +1,5 @@
 import { NextResponse, NextRequest } from 'next/server'
-import { adminUser } from '../../../../fakeData/data'
+import { adminUser } from '@/data/fakeData'
 
 export async function POST(request: NextRequest) {
   try {
