@@ -61,7 +61,21 @@
     "cta_description": "مستعد لأن تكون جزءًا من نهضة سوريا؟ اتصل بنا لمعرفة كيف يمكنك المساهمة.",
     "cta_button": "راسلنا",
     "cta_email": "example@gmail.com",
-    "direction": "rtl"
+    "direction": "rtl",
+    "cards": {
+      "future_vision": {
+        "title": "رؤية المستقبل",
+        "description": "نتطلع إلى مستقبل مشرق لسوريا مليء بالابتكار والتطور"
+      },
+      "free_syria": {
+        "title": "سوريا الحرة",
+        "description": "نؤمن بسوريا حرة ومزدهرة تحتضن جميع أبنائها"
+      },
+      "reconstruction": {
+        "title": "إعادة الإعمار",
+        "description": "نعمل على إعادة بناء سوريا بأسس قوية ومستدامة"
+      }
+    }
   },
   
   "RequestPage": {
@@ -115,6 +129,7 @@
   },
   "opportunities": {
     "title": "نظام الفرص الاستثمارية",
+    "filterTitle": "خيارات التصفية والعرض",
     "companies": "الشركات",
     "branches": "الفروع",
     "centers": "المراكز",

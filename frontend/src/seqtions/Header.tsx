@@ -61,8 +61,7 @@ export default function Header() {
     { href: "/", label: t("home") },
     { href: "/about", label: t("about") },
     { href: "/opportunities", label: t("opportunities") },
-    { href: "/admin", label: t("admin") },
-
+    { href: "/admin", label: t("admin") }
   ];
 
   return (
@@ -108,19 +107,18 @@ export default function Header() {
               <Link
                 key={link.href}
                 href={link.href}
-                className="relative text-lg text-gray-700 hover:text-indigo-600 font-tajawal-medium py-2 px-3 rounded-lg transition-all duration-300 group hover:bg-gradient-to-r hover:from-indigo-50 hover:to-purple-50"
+                className="relative text-lg text-gray-700 hover:text-indigo-600 font-tajawal-medium py-3 px-4 rounded-lg transition-all duration-200 group hover:bg-indigo-50"
                 onClick={() => setMobileMenuOpen(false)}
               >
                 <span className="relative z-10">{link.label}</span>
-                <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-indigo-500 group-hover:w-full transition-all duration-300 rounded-full"></span>
-                <span className="absolute inset-0 bg-indigo-50 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300"></span>
+                <span className="absolute bottom-1 left-4 right-4 h-0.5 bg-indigo-500 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-200 origin-center rounded-full"></span>
               </Link>
             ))}
 
             {/* Enhanced Language Selector */}
             <div className="relative" ref={dropdownRef}>
               <button
-                className="group relative inline-flex items-center justify-center px-4 py-2 text-sm font-tajawal-medium text-gray-700 bg-white/80 backdrop-blur-sm border-2 border-indigo-200/50 rounded-xl shadow-lg hover:shadow-xl hover:shadow-indigo-200/50 transform hover:-translate-y-0.5 hover:scale-105 transition-all duration-300 ease-out focus:outline-none focus:ring-4 focus:ring-indigo-300/50 min-w-[120px] overflow-hidden hover:border-indigo-300"
+                className="group relative inline-flex items-center justify-center px-4 py-2 text-sm font-tajawal-medium text-gray-700 bg-white border-2 border-indigo-200 rounded-xl shadow-md hover:shadow-lg hover:border-indigo-300 hover:bg-indigo-50 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-indigo-300 min-w-[120px]"
                 onClick={() => {
                   if (langDropdownOpen) {
                     setIsClosing(true);
@@ -150,14 +148,7 @@ export default function Header() {
                 aria-haspopup="true"
                 aria-label="اختيار اللغة / Language Selection"
               >
-                {/* Background gradient overlay */}
-                <span className="absolute inset-0 bg-indigo-50 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"></span>
-
-                {/* Animated shine effect */}
-                <span className="absolute inset-0 bg-white/30 transform -skew-x-12 -translate-x-full group-hover:translate-x-full transition-transform duration-700 ease-out"></span>
-
-                {/* Content */}
-                <span className="relative z-10 flex items-center gap-2">
+                <span className="flex items-center gap-2">
                   {/* Language Icon */}
                   <svg className="w-4 h-4 text-indigo-500 group-hover:text-indigo-600 transition-colors duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5h12M9 3v2m1.048 9.5A18.022 18.022 0 016.412 9m6.088 9h7M11 21l5-10 5 10M12.751 5C11.783 10.77 8.07 15.61 3 18.129" />
@@ -175,59 +166,47 @@ export default function Header() {
                 </span>
               </button>
 
-              {/* Enhanced Dropdown Menu */}
+              {/* Simplified Dropdown Menu */}
               {langDropdownOpen && (
-                <div className={`absolute left-0 md:right-0 mt-3 w-48 bg-white/95 backdrop-blur-md rounded-2xl shadow-2xl border border-indigo-100/50 py-3 z-50 overflow-hidden language-dropdown-transition ${
+                <div className={`absolute left-0 md:right-0 mt-2 w-48 bg-white rounded-xl shadow-lg border border-indigo-100 py-2 z-50 ${
                   isClosing
-                    ? 'opacity-0 scale-95 translate-y-2'
-                    : 'opacity-100 scale-100 translate-y-0'
-                }`}>
+                    ? 'opacity-0 translate-y-1'
+                    : 'opacity-100 translate-y-0'
+                } transition-all duration-200`}>
                   {/* Dropdown Header */}
-                  <div className="px-4 py-2 border-b border-indigo-100/30">
-                    <p className="text-xs font-tajawal-medium text-gray-500 uppercase tracking-wider">اختر اللغة / Choose Language</p>
+                  <div className="px-4 py-2 border-b border-indigo-100">
+                    <p className="text-xs font-tajawal-medium text-gray-500">اختر اللغة / Choose Language</p>
                   </div>
                   {/* Language Options */}
-                  <div className="py-2">
-                    {languages.map((lang, index) => (
+                  <div className="py-1">
+                    {languages.map((lang) => (
                       <button
                         key={lang.code}
-                        className={`group relative w-full text-left px-4 py-3 text-sm transition-all duration-300 flex items-center gap-3 rounded-lg hover:bg-gradient-to-r hover:from-indigo-50 hover:via-purple-50 hover:to-blue-50 ${
+                        className={`w-full text-left px-4 py-2 text-sm flex items-center gap-3 ${
                           locale === lang.code
-                            ? "bg-gradient-to-r from-indigo-50 via-purple-50 to-blue-50 font-tajawal-bold text-indigo-600"
-                            : "text-gray-700 hover:text-indigo-600 font-tajawal-medium"
-                        }`}
+                            ? "bg-indigo-50 font-tajawal-bold text-indigo-600"
+                            : "text-gray-700 hover:bg-indigo-50 hover:text-indigo-600 font-tajawal-medium"
+                        } transition-colors duration-150`}
                         onClick={() => changeLanguage(lang.code)}
                       >
-                        {/* Language Flag/Icon */}
-                        <div className={`w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold transition-all duration-300 ${
+                        {/* Language Icon */}
+                        <div className={`w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold ${
                           locale === lang.code
-                            ? "bg-indigo-500 text-white shadow-lg"
-                            : "bg-gray-200 text-gray-600 group-hover:bg-indigo-500 group-hover:text-white"
+                            ? "bg-indigo-500 text-white"
+                            : "bg-gray-200 text-gray-600"
                         }`}>
                           {lang.code.toUpperCase()}
                         </div>
 
                         {/* Language Name */}
-                        <span className={`relative z-10 flex-1 transition-all duration-300 ${
-                          locale === lang.code
-                            ? "text-indigo-600 font-tajawal-bold"
-                            : "text-gray-700 group-hover:text-indigo-600 font-tajawal-medium"
-                        }`}>
+                        <span>
                           {lang.label}
                         </span>
 
                         {/* Active Indicator */}
                         {locale === lang.code && (
-                          <div className="w-2 h-2 bg-indigo-500 rounded-full animate-pulse"></div>
+                          <div className="w-2 h-2 bg-indigo-500 rounded-full ml-auto"></div>
                         )}
-
-                        {/* Hover Effect Line */}
-                        {locale !== lang.code && (
-                          <span className="absolute bottom-0 left-4 right-4 h-0.5 bg-indigo-500 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left rounded-full"></span>
-                        )}
-
-                        {/* Shine Effect */}
-                        <span className="absolute inset-0 bg-white/20 transform -skew-x-12 -translate-x-full group-hover:translate-x-full transition-transform duration-500 ease-out"></span>
                       </button>
                     ))}
                   </div>

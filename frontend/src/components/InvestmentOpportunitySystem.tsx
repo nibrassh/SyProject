@@ -321,32 +321,38 @@ export default function InvestmentOpportunitySystem() {
           </div>
         </nav>
 
-        {/* View Toggle */}
-        <div className={`flex items-center mb-6 ${isArabic ? 'justify-end' : 'justify-start'}`}>
-          <div className="bg-gray-100 p-1 rounded-xl shadow-inner">
-            <div className={`flex ${isArabic ? 'space-x-reverse space-x-1' : 'space-x-1'}`}>
-              <button
-                onClick={() => setViewMode('map')}
-                className={`flex items-center px-6 py-3 rounded-lg font-tajawal-medium transition-all duration-300 min-w-[140px] justify-center ${
-                  viewMode === 'map'
-                    ? 'bg-white text-indigo-600 shadow-md border border-indigo-100'
-                    : 'text-gray-600 hover:text-gray-800 hover:bg-gray-50'
-                }`}
-              >
-                <FaMapMarkerAlt className={`text-lg ${isArabic ? 'ml-2' : 'mr-2'}`} />
-                {t('mapView')}
-              </button>
-              <button
-                onClick={() => setViewMode('list')}
-                className={`flex items-center px-6 py-3 rounded-lg font-tajawal-medium transition-all duration-300 min-w-[140px] justify-center ${
-                  viewMode === 'list'
-                    ? 'bg-white text-indigo-600 shadow-md border border-indigo-100'
-                    : 'text-gray-600 hover:text-gray-800 hover:bg-gray-50'
-                }`}
-              >
-                <FaList className={`text-lg ${isArabic ? 'ml-2' : 'mr-2'}`} />
-                {t('listView')}
-              </button>
+        {/* Filter and View Options Section */}
+        <div className="mb-6">
+          {/* Filter Section Title and View Toggle in same row */}
+          <div className={`flex items-center justify-between mb-4`}>
+          
+
+            {/* View Toggle */}
+            <div className="bg-gray-100 p-1 rounded-xl shadow-inner">
+              <div className={`flex ${isArabic ? 'space-x-reverse space-x-1' : 'space-x-1'}`}>
+                <button
+                  onClick={() => setViewMode('map')}
+                  className={`flex items-center px-6 py-3 rounded-lg font-tajawal-medium transition-all duration-300 min-w-[140px] justify-center ${
+                    viewMode === 'map'
+                      ? 'bg-white text-indigo-600 shadow-md border border-indigo-100'
+                      : 'text-gray-600 hover:text-gray-800 hover:bg-gray-50'
+                  }`}
+                >
+                  <FaMapMarkerAlt className={`text-lg ${isArabic ? 'ml-2' : 'mr-2'}`} />
+                  {t('mapView')}
+                </button>
+                <button
+                  onClick={() => setViewMode('list')}
+                  className={`flex items-center px-6 py-3 rounded-lg font-tajawal-medium transition-all duration-300 min-w-[140px] justify-center ${
+                    viewMode === 'list'
+                      ? 'bg-white text-indigo-600 shadow-md border border-indigo-100'
+                      : 'text-gray-600 hover:text-gray-800 hover:bg-gray-50'
+                  }`}
+                >
+                  <FaList className={`text-lg ${isArabic ? 'ml-2' : 'mr-2'}`} />
+                  {t('listView')}
+                </button>
+              </div>
             </div>
           </div>
         </div>

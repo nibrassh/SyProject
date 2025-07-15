@@ -95,11 +95,11 @@ export default function AboutPage({ params: { locale } }: {
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
                       </svg>
                     </div>
-                    <h3 className="text-sm md:text-base font-semibold text-blue-800 font-tajawal">رؤية المستقبل</h3>
+                    <h3 className="text-sm md:text-base font-semibold text-blue-800 font-tajawal">{t('cards.future_vision.title')}</h3>
                   </div>
                 </div>
                 <p className="text-gray-600 font-tajawal text-xs leading-relaxed">
-                  نتطلع إلى مستقبل مشرق لسوريا مليء بالابتكار والتطور
+                  {t('cards.future_vision.description')}
                 </p>
               </div>
 
@@ -113,11 +113,11 @@ export default function AboutPage({ params: { locale } }: {
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
                       </svg>
                     </div>
-                    <h3 className="text-sm md:text-base font-semibold text-green-800 font-tajawal">سوريا الحرة</h3>
+                    <h3 className="text-sm md:text-base font-semibold text-green-800 font-tajawal">{t('cards.free_syria.title')}</h3>
                   </div>
                 </div>
                 <p className="text-gray-600 font-tajawal text-xs leading-relaxed">
-                  نؤمن بسوريا حرة ومزدهرة تحتضن جميع أبنائها
+                  {t('cards.free_syria.description')}
                 </p>
               </div>
 
@@ -131,11 +131,11 @@ export default function AboutPage({ params: { locale } }: {
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
                       </svg>
                     </div>
-                    <h3 className="text-sm md:text-base font-semibold text-red-800 font-tajawal">إعادة الإعمار</h3>
+                    <h3 className="text-sm md:text-base font-semibold text-red-800 font-tajawal">{t('cards.reconstruction.title')}</h3>
                   </div>
                 </div>
                 <p className="text-gray-600 font-tajawal text-xs leading-relaxed">
-                  نعمل على إعادة بناء سوريا بأسس قوية ومستدامة
+                  {t('cards.reconstruction.description')}
                 </p>
               </div>
             </div>

@@ -61,7 +61,21 @@
     "cta_description": "Ready to be part of Syria's renaissance? Contact us to learn how you can contribute.",
     "cta_button": "Message Us",
     "cta_email": "example@gmail.com",
-    "direction": "ltr"
+    "direction": "ltr",
+    "cards": {
+      "future_vision": {
+        "title": "Future Vision",
+        "description": "We look forward to a bright future for Syria full of innovation and development"
+      },
+      "free_syria": {
+        "title": "Free Syria",
+        "description": "We believe in a free and prosperous Syria that embraces all its people"
+      },
+      "reconstruction": {
+        "title": "Reconstruction",
+        "description": "We are working to rebuild Syria with strong and sustainable foundations"
+      }
+    }
   },
   
   "RequestPage": {
@@ -115,6 +129,7 @@
   },
   "opportunities": {
     "title": "Investment Opportunities System",
+    "filterTitle": "Filter & View Options",
     "companies": "Companies",
     "branches": "Branches",
     "centers": "Centers",
