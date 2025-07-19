@@ -1,51 +1,117 @@
 import mongoose from 'mongoose';
 
-
 const centerSchema = new mongoose.Schema({
+  
+  name: {
+    en: { type: String, required: true },
+    ar: { type: String, required: true }
+  },
+  description: {  
+    en: String,
+    ar: String
+  },
+  management: {
+    en: String,
+    ar: String
+  },
+  address: {
+    en: String,
+    ar: String
+  },
+  location: {
+    type: [Number],  
+    required: true,
+    index: '2dsphere'
+  },
+
+ 
+  theoreticalCapacity: {  // الإنتاجية النظرية
+    value: { type: Number, required: true },
+    unit: { type: String, default: "m³/hour" }
+  },
+  actualCapacity: {  // الإنتاجية الفعلية
+    value: { type: Number, required: true },
+    unit: { type: String, default: "m³/hour" }
+  },
+  technicalReadiness: { type: Number },  // الجاهزية الفنية (percentage)
+  specificationCompliance: {  // مطابقة المواصفات
+    en: String,
+    ar: String
+  },
+
+
+  producedMaterials: [{ 
     name: {
-        en: { type: String,required: true },
-        ar: { type: String,required: true }
+      en: String,
+      ar: String
     },
-    address: {
-        en: String,
-        ar: String
-    },
-    image: {
-        type: String,
-    },
-    shortdescription: {
-        en: String,
-        ar: String
-    },
-    longdescription: {
-        en: String,
-        ar: String
-    },
-    location: {
-        type: [Number],
-        required: true,
-        index: '2dsphere'
-    },
-    request: {
-        type: String,
-        enum: ["free","reverc","agree"],
-        default: "free"
-    },
-    branchId: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Branch',
-        required: true,
-        index: true
-    },
-     companyId: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Company',
-        index: true
+    specification: String 
+  }],
+
+  // Cost Information
+  currentProductCost: {  // كلفة المنتج الحالية
+    value: { type: Number },
+    currency: { type: String, default: "SYP" },
+    specification: String  // e.g., "عيار 350 كغ/م3"
+  },
+  monthlyMaintenanceCost: {  // كلفة صيانة شهريا
+    value: { type: Number },
+    currency: { type: String, default: "SYP" }
+  },
+  operatingCosts: {  // كلفة التشغيل
+    equipment: [{  // المعدات (e.g., "تركس + مولدة + ضاغط + صهريج مياه")
+      en: String,
+      ar: String
+    }],
+    laborCosts: {  // أجور يد عاملة
+      value: { type: Number },
+      currency: { type: String, default: "SYP" }
     }
-},{timestamps: true });
+  },
 
-centerSchema.index({ branchId: 1,request: 1 }); // Compound index
+  // Technical Specifications
+  silos: [{  // السايلوات (e.g., "سيلو اسمنت عدد /2/ × سعة /55/طن")
+    count: Number,
+    capacity: Number,
+    unit: { type: String, default: "ton" }
+  }],
 
+  // Staffing Information
+  staffStatus: {  // حالة الطاقم (e.g., "طاقم المجبل غير موجود")
+    en: String,
+    ar: String
+  },
+  numberOfEmployees: {
+    type: Number,
+    default: 0
+  },
 
-const Center = mongoose.model('Center',centerSchema);
+  // Additional Notes
+  notes: [{  // ملاحظات
+    en: String,
+    ar: String
+  }],
+
+  // Relationships
+  branchId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Branch',
+    required: true,
+    index: true
+  },
+  companyId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Company',
+    index: true
+  },
+
+  // Status
+  request: {
+    type: String,
+    enum: ["free", "reverc", "agree"],
+    default: "free"
+  }
+}, { timestamps: true });
+
+const Center = mongoose.model('Center', centerSchema);
 export default Center;
