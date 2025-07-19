@@ -8,6 +8,7 @@ import { FaMapMarkerAlt, FaList, FaArrowLeft, FaBuilding, FaEye, FaHandshake } f
 import { companies, userRequests } from '@/data/fakeData'
 import Image from 'next/image'
 import Link from 'next/link'
+import InvestmentFormModal from './InvestmentFormModal'
 
 // Types
 interface Company {
@@ -93,6 +94,7 @@ export default function InvestmentOpportunitySystem() {
   const [mapCenter, setMapCenter] = useState<[number, number]>([34.8021, 38.9968]) // Syria center
   const [mapZoom, setMapZoom] = useState(7)
   const [showOpportunityModal, setShowOpportunityModal] = useState(false)
+  const [showInvestmentForm, setShowInvestmentForm] = useState(false)
 
   // Mock user ID (in real app, get from auth)
   const userId = "user123"
@@ -113,15 +115,30 @@ export default function InvestmentOpportunitySystem() {
       return
     }
 
+    // Open investment form modal
+    setShowInvestmentForm(true)
+  }
+
+  // Handle investment form submission
+  const handleInvestmentFormSubmit = (formData: any) => {
+    if (!selectedOpportunity) return
+
     // Add request to mock data
     userRequests.push({
       userId,
-      opportunityId: opportunity.id,
+      opportunityId: selectedOpportunity.id,
       status: 'pending',
       requestDate: new Date().toISOString()
     })
 
+    // Close form and show success message
+    setShowInvestmentForm(false)
     alert(t('requestSent'))
+  }
+
+  // Close investment form
+  const closeInvestmentForm = () => {
+    setShowInvestmentForm(false)
   }
 
   // Breadcrumb generation
@@ -620,6 +637,17 @@ export default function InvestmentOpportunitySystem() {
             </div>
           </div>
         </div>
+      )}
+
+      {/* Investment Form Modal */}
+      {showInvestmentForm && selectedOpportunity && (
+        <InvestmentFormModal
+          isOpen={showInvestmentForm}
+          onClose={closeInvestmentForm}
+          onSubmit={handleInvestmentFormSubmit}
+          opportunity={selectedOpportunity}
+          isArabic={isArabic}
+        />
       )}
     </div>
   )
