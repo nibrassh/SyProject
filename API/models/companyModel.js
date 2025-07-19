@@ -3,15 +3,14 @@ import mongoose from 'mongoose';
 const companySchema = new mongoose.Schema({
   name: {
     en: { type: String, required: true, unique: true },
-    ar: { type: String, required: true, unique:true }
+    ar: { type: String, required: true, unique: true }
   },
   address: {
-    en: {type:String, required:true},
-    ar: {type:String, required:true},
-   
+    en: { type: String, required: true },
+    ar: { type: String, required: true },
   },
   image: {
-    type:Object ,
+    type: Object,
   },
   shortdescription: {
     en: String,
@@ -23,8 +22,8 @@ const companySchema = new mongoose.Schema({
   },
   location: {
     type: [Number],
-     required: true,  
-    index: '2dsphere' ,
+    required: true,  
+    index: '2dsphere',
   },
   request: {
     type: String,
@@ -32,9 +31,21 @@ const companySchema = new mongoose.Schema({
     default: "free"
   },
   branches: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Branch' }],
-}, { timestamps: true });  
+  
 
-
+  numberOfEmployees: {
+    type: Number,
+    default: 0
+  },
+  notes: {
+    en: String,
+    ar: String
+  },
+  machinery: {  
+    en: String,
+    ar: String
+  }
+}, { timestamps: true });
 
 const Company = mongoose.model('Company', companySchema);
 export default Company;

@@ -37,6 +37,19 @@ const branchSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId, 
     ref: 'Center' 
   }],
+    // New Fields
+  numberOfEmployees: {
+    type: Number,
+    default: 0
+  },
+  notes: {
+    en: String,
+    ar: String
+  },
+  machinery: { 
+    en: String,
+    ar: String
+  }
 }, { 
   timestamps: true 
 });
