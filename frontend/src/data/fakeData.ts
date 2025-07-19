@@ -119,9 +119,9 @@ export const opportunities = [
 ];
 
 export const adminUser = {
-  name:"belal",
-  email:"belal.alkador1@gmail.com",
-  password:"12345",
+  name:"Administrator",
+  email:"admin@test.com",
+  password:"admin1234",
   isAdmin:true,
   ok:true
 }

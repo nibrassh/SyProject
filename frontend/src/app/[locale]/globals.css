@@ -16,6 +16,70 @@
   line-height: 1.4;
 }
 
+/* RTL Support for Admin Dashboard */
+[dir="rtl"] {
+  text-align: right;
+}
+
+[dir="rtl"] .space-x-reverse > :not([hidden]) ~ :not([hidden]) {
+  --tw-space-x-reverse: 1;
+}
+
+[dir="rtl"] .flex-row-reverse {
+  flex-direction: row-reverse;
+}
+
+/* RTL specific spacing adjustments */
+[dir="rtl"] .mr-auto {
+  margin-right: auto;
+  margin-left: 0;
+}
+
+[dir="rtl"] .ml-auto {
+  margin-left: auto;
+  margin-right: 0;
+}
+
+/* Header improvements for RTL */
+[dir="rtl"] .space-x-reverse > :not([hidden]) ~ :not([hidden]) {
+  --tw-space-x-reverse: 1;
+  margin-right: calc(var(--tw-space-x-reverse) * 2rem);
+  margin-left: calc((1 - var(--tw-space-x-reverse)) * 2rem);
+}
+
+/* Smooth transitions for header elements */
+.header-link {
+  position: relative;
+  overflow: hidden;
+}
+
+.header-link::before {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 0;
+  height: 2px;
+  background: linear-gradient(90deg, #3B82F6, #1D4ED8);
+  transition: width 0.3s ease;
+}
+
+.header-link:hover::before {
+  width: 100%;
+}
+
+/* Logout button enhancements */
+.logout-btn {
+  background: linear-gradient(135deg, #3B82F6 0%, #1D4ED8 100%);
+  box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3);
+  transition: all 0.3s ease;
+}
+
+.logout-btn:hover {
+  box-shadow: 0 6px 20px rgba(59, 130, 246, 0.4);
+  transform: translateY(-1px);
+}
+
 /* Custom animations for enhanced hero section */
 @keyframes gradient-x {
   0%, 100% {

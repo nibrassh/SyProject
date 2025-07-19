@@ -31,23 +31,38 @@ const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
   setError("");
 
   try {
-    const { data } = await axios.post(
-      `${process.env.NEXT_PUBLIC_API_BASE_UR}/api/auth/v1/signin`,
-      {
+    let data;
+
+    // محاولة استخدام API الخارجي أولاً
+    try {
+      const response = await axios.post(
+        `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/auth/v1/signin`,
+        {
+          email: formData.email,
+          password: formData.password
+        },
+        {
+          withCredentials: true,
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        }
+      );
+      data = response.data;
+    } catch (apiError) {
+      console.log("External API failed, trying local API...");
+
+      // في حالة فشل API الخارجي، استخدم API المحلي
+      const response = await axios.post('/api/signin', {
         email: formData.email,
         password: formData.password
-      },
-      {
-        withCredentials: true, 
-        headers: {
-          'Content-Type': 'application/json'
-        }
-      }
-    );
+      });
+      data = response.data;
+    }
 
     if (data.success) {
-      alert(data)
-      router.push("/admin");
+      // التوجه إلى لوحة التحكم الجديدة
+      router.push("/admindashboard");
     } else {
       setError(data.message || t("loginFailed"));
     }

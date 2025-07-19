@@ -1,6 +1,14 @@
 import User from "../models/userModel.js";
 import jwt from "jsonwebtoken";
 
+// مستخدم admin مؤقت للاختبار
+const tempAdminUser = {
+  _id: "admin123",
+  email: "admin@test.com",
+  password: "admin1234",
+  isAdmin: true
+};
+
 export const signIn = async (req, res) => {
   try {
     const { email, password } = req.body;
@@ -12,35 +20,65 @@ export const signIn = async (req, res) => {
       });
     }
 
-    const user = await User.findOne({ email , password });
-    if (!user) {
-      return res.status(401).json({
-        success: false,
-        message: "Invalid credentials",
-      });
+    // التحقق من المستخدم المؤقت أولاً
+    if (email === tempAdminUser.email && password === tempAdminUser.password) {
+      const user = tempAdminUser;
+
+      if (!user.isAdmin) {
+        return res.status(403).json({
+          success: false,
+          message: "Account is deactivated",
+        });
+      }
+    } else {
+      // محاولة البحث في قاعدة البيانات
+      try {
+        const user = await User.findOne({ email , password });
+        if (!user) {
+          return res.status(401).json({
+            success: false,
+            message: "Invalid credentials",
+          });
+        }
+
+        if (!user.isAdmin) {
+          return res.status(403).json({
+            success: false,
+            message: "Account is deactivated",
+          });
+        }
+      } catch (dbError) {
+        // في حالة عدم توفر قاعدة البيانات، استخدم المستخدم المؤقت
+        return res.status(401).json({
+          success: false,
+          message: "Invalid credentials",
+        });
+      }
     }
 
-    if (!user.isAdmin) {
-      return res.status(403).json({
-        success: false,
-        message: "Account is deactivated",
-      });
-    }
+    // استخدام المستخدم المؤقت أو من قاعدة البيانات
+    const currentUser = (email === tempAdminUser.email && password === tempAdminUser.password)
+      ? tempAdminUser
+      : await User.findOne({ email, password });
 
     const token = jwt.sign(
       {
-        id: user._id,
-        isAdmin: user.isAdmin,
+        id: currentUser._id,
+        isAdmin: currentUser.isAdmin,
       },
       process.env.JWT_SECRET,
       { expiresIn: "1d" }
     );
-    await user.save();
+
+    // حفظ المستخدم فقط إذا كان من قاعدة البيانات
+    if (currentUser !== tempAdminUser) {
+      await currentUser.save();
+    }
 
     const userData = {
-      _id: user._id,
-      email: user.email,
-      isAdmin: user.isAdmin,
+      _id: currentUser._id,
+      email: currentUser.email,
+      isAdmin: currentUser.isAdmin,
     };
 
     res.cookie("token", token, {

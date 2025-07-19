@@ -34,14 +34,17 @@ app.use((err, req, res, next) => {
 
 const PORT = process.env.PORT || 5000;
 
+// محاولة الاتصال بقاعدة البيانات، ولكن تشغيل الخادم حتى لو فشل الاتصال
 Database.connect()
   .then(() => {
-    app.listen(PORT, () => {
-      console.log(`✅ Server running on port ${PORT}`);
-      console.log('🚀 Database connection established');
-    });
+    console.log('🚀 Database connection established');
   })
   .catch(error => {
-    console.error('❌ Failed to start server:', error);
-    process.exit(1);
+    console.warn('⚠️ Database connection failed, running without database:', error.message);
   });
+
+// تشغيل الخادم بغض النظر عن حالة قاعدة البيانات
+app.listen(PORT, () => {
+  console.log(`✅ Server running on port ${PORT}`);
+  console.log(`🌐 API available at http://localhost:${PORT}`);
+});
