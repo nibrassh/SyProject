@@ -96,7 +96,30 @@ export const signIn = async (req, res) => {
     return res.status(500).json({
       success: false,
       message: "Internal server error",
-      error: error.message 
+      error: error.message
+    });
+  }
+};
+
+// دالة تسجيل الخروج
+export const signOut = async (req, res) => {
+  try {
+    // حذف الـ cookie
+    res.clearCookie("token", {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: 'strict'
+    });
+
+    return res.status(200).json({
+      success: true,
+      message: "Sign out successful"
+    });
+  } catch (error) {
+    return res.status(500).json({
+      success: false,
+      message: "Internal server error during sign out",
+      error: error.message
     });
   }
 };

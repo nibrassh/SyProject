@@ -1,10 +1,11 @@
 import express from 'express'
-import { signIn } from '../controllers/authController.js';
+import { signIn, signOut } from '../controllers/authController.js';
 import { verifyToken } from '../middleware/verfiToken.js';
 
 const authRoute= express.Router()
 
 authRoute.post('/signin',signIn)
+authRoute.post('/signout', signOut)
 
 authRoute.get('/check-admin', verifyToken, (req, res) => {
   try {
