@@ -1,69 +1,129 @@
 import mongoose from "mongoose";
 
-const requestSchema = new mongoose.Schema({
-  requesterName: { 
-    type: String, 
-    required: true 
+const requestSchema = new mongoose.Schema(
+  {
+    
+    email: {
+      type: String,
+      required: true,
+    },
+    phone: {
+      type: String,
+      required: true,
+    },
+    projectTitle: {
+      type: String,
+      required: true,
+    },
+
+
+    companyNatureAndActivities: {
+      type: String,
+      required: true,
+    },
+    geographicalLocations: {
+      type: String,
+      required: true,
+    },
+    companyCapital: {
+      type: Number, // in Syrian Pounds
+      required: true,
+    },
+
+    // 3. Company Business Field
+    businessField: {
+      type: String,
+      required: true,
+    },
+    mainActivity: {
+      type: String,
+      required: true,
+    },
+
+   
+    currentContractsSize: {
+      type: String,
+      required: true,
+    },
+    currentContractsDetails: {
+      type: String,
+      required: true,
+    },
+
+ 
+    investmentPurpose: {
+      type: String,
+      required: true,
+    },
+    investmentDuration: {
+      type: String,
+      required: true,
+    },
+    expectedAnnualReturn: {
+      type: Number, // as percentage
+      required: true,
+    },
+    investmentConditions: {
+      type: String,
+      required: true,
+    },
+
+    // 6. Human Resources
+    numberOfEmployees: {
+      type: Number,
+      required: true,
+    },
+    employeeDetails: {
+      type: String,
+      required: true,
+    },
+
+    // 7. Properties and Assets
+    realEstateProperties: {
+      type: String,
+      required: true,
+    },
+    fixedAssets: {
+      type: String,
+      required: true,
+    },
+    nonFixedAssets: {
+      type: String,
+      required: true,
+    },
+
+       equipmentAndMachinery: {
+      type: String,
+      required: true,
+    },
+    technicalConditionOfEquipment: {
+      type: String,
+      required: true,
+    },
+
+    // 9. Financial Status
+    financialObligations: {
+      type: String,
+      required: true,
+    },
+    lastAuditedFinancialBalance: {
+      type: String,
+      required: true,
+    },
+     relatedId: {
+      type: mongoose.Schema.Types.ObjectId,
+      required: true,
+      refPath: 'relatedType'
+    },
+      relatedType: {
+      type: String,
+      required: true,
+      enum: ['Company', 'Branch', 'Center']
+    },
   },
-  requesterPhone: { 
-    type: String, 
-    required: true 
-  },
-  requesterEmail: { 
-    type: String, 
-    required: true,
-    match: [/.+\@.+\..+/, "Please enter a valid email"] 
-  },
-
-   companyInfo: {
-    name: { type: String, required: true },
-    address: { type: String, required: true },
-    headquarters: { type: String, required: true }
-  },
-
-  fiveYearExperience: [{
-    year: { type: Number, required: true },
-    description: { type: String, required: true },
-    value: { type: Number } 
-  }],
-
-  
-  companyDetails: {
-    legalName: { type: String, required: true },
-    capital: { type: Number, required: true },
-    activityType: { type: String, required: true },
-    directors: [{
-      name: String,
-      position: String
-    }],
-    managementStructure: { type: String, required: true }
-  },
-
-
-  financialAssets: {
-    description: String,
-    value: Number,
-    documents: [String] 
-  },
-
-
-  companyValuation: {
-    companyValue: { type: Number, required: true },
-    previousProjects: [{
-      name: String,
-      value: { type: Number, required: true },
-      completionDate: Date,
-      client: String
-    }]
-  },
-
-  submittedAt: {
-    type: Date,
-    default: Date.now
+  {
+    timestamps: true,
   }
-}, {
-  timestamps: true,
-});
+);
 
-const Request = mongoose.model('Request', requestSchema);
-export default Request;
+export default mongoose.model("Request", requestSchema);
