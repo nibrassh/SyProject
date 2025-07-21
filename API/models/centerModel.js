@@ -27,11 +27,11 @@ const centerSchema = new mongoose.Schema({
  
   theoreticalCapacity: {  // الإنتاجية النظرية
     value: { type: Number, required: true },
-    unit: { type: String, default: "m³/hour" }
+    unit: { type: String }
   },
   actualCapacity: {  // الإنتاجية الفعلية
     value: { type: Number, required: true },
-    unit: { type: String, default: "m³/hour" }
+    unit: { type: String  }
   },
   technicalReadiness: { type: Number },  // الجاهزية الفنية (percentage)
   specificationCompliance: {  // مطابقة المواصفات
@@ -59,7 +59,7 @@ const centerSchema = new mongoose.Schema({
     currency: { type: String, default: "SYP" }
   },
   operatingCosts: {  // كلفة التشغيل
-    equipment: [{  // المعدات (e.g., "تركس + مولدة + ضاغط + صهريج مياه")
+    equipment: [{  
       en: String,
       ar: String
     }],
@@ -69,13 +69,7 @@ const centerSchema = new mongoose.Schema({
     }
   },
 
-  // Technical Specifications
-  silos: [{  // السايلوات (e.g., "سيلو اسمنت عدد /2/ × سعة /55/طن")
-    count: Number,
-    capacity: Number,
-    unit: { type: String, default: "ton" }
-  }],
-
+  
   // Staffing Information
   staffStatus: {  // حالة الطاقم (e.g., "طاقم المجبل غير موجود")
     en: String,
@@ -86,11 +80,11 @@ const centerSchema = new mongoose.Schema({
     default: 0
   },
 
-  // Additional Notes
-  notes: [{  // ملاحظات
+
+  notes: {  
     en: String,
     ar: String
-  }],
+  },
 
   // Relationships
   branchId: {
@@ -105,7 +99,6 @@ const centerSchema = new mongoose.Schema({
     index: true
   },
 
-  // Status
   request: {
     type: String,
     enum: ["free", "reverc", "agree"],
