@@ -28,11 +28,11 @@ export default function AdminHeader() {
   
   const navLinks = [
     { href: "/admindashboard", label: "لوحة التحكم" },
-    { href: "/admindashboard/investments", label: "إدارة الاستثمارات" },
+    { href: "/admindashboard/companies", label: "إدارة الشركات" },
+    { href: "/admindashboard/investments", label: "إحصائيات الاستثمارات" },
     { href: "/admindashboard/investment-requests", label: "طلبات الاستثمارات" },
     { href: "/admindashboard/accounts", label: "إدارة الحسابات" },
     { href: "/admindashboard/reports", label: "التقارير" },
-
   ];
 
   return (
