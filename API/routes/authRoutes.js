@@ -1,10 +1,13 @@
 import express from 'express'
+
 import { createUser, deleteUser, getUsers, signIn, toggleUserAdmin } from '../controllers/authController.js';
+import { signIn, signOut } from '../controllers/authController.js';
 import { verifyToken } from '../middleware/verfiToken.js';
 
 const authRoute= express.Router()
 
 authRoute.post('/signin',signIn)
+authRoute.post('/signout', signOut)
 
 authRoute.post('/create-user',verifyToken,createUser)
 

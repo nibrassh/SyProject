@@ -119,10 +119,10 @@ export default function AdminDashboard() {
 
   const quickActions = [
     {
-      title: "إدارة الحسابات",
-      description: "عرض وإدارة حسابات المستخدمين",
-      icon: FaUserCog,
-      href: "/admindashboard/accounts",
+      title: "إدارة الشركات",
+      description: "عرض وإدارة الشركات المسجلة",
+      icon: FaBuilding,
+      href: "/admindashboard/companies",
       color: "bg-blue-500 hover:bg-blue-600"
     },
     {
@@ -140,17 +140,17 @@ export default function AdminDashboard() {
       color: "bg-indigo-500 hover:bg-indigo-600"
     },
     {
+      title: "إدارة الحسابات",
+      description: "عرض وإدارة حسابات المستخدمين",
+      icon: FaUserCog,
+      href: "/admindashboard/accounts",
+      color: "bg-purple-500 hover:bg-purple-600"
+    },
+    {
       title: "التقارير والإحصائيات",
       description: "عرض التقارير المفصلة والإحصائيات",
       icon: FaChartLine,
       href: "/admindashboard/reports",
-      color: "bg-purple-500 hover:bg-purple-600"
-    },
-    {
-      title: "عرض الطلبات",
-      description: "مراجعة ومعالجة الطلبات الواردة",
-      icon: FaEye,
-      href: "/admin/requests",
       color: "bg-orange-500 hover:bg-orange-600"
     }
   ];
