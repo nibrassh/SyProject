@@ -1,10 +1,19 @@
 import express from 'express'
-import { signIn } from '../controllers/authController.js';
+import { createUser, deleteUser, getUsers, signIn, toggleUserAdmin } from '../controllers/authController.js';
 import { verifyToken } from '../middleware/verfiToken.js';
 
 const authRoute= express.Router()
 
 authRoute.post('/signin',signIn)
+
+authRoute.post('/create-user',verifyToken,createUser)
+
+authRoute.delete('/:id',verifyToken,deleteUser)
+
+authRoute.put('/toggle-admin/:id',verifyToken,toggleUserAdmin)
+
+authRoute.get('/users',verifyToken,getUsers)
+
 
 authRoute.get('/check-admin', verifyToken, (req, res) => {
   try {
@@ -33,5 +42,6 @@ authRoute.get('/check-admin', verifyToken, (req, res) => {
        });
   }
 });
+
 
 export default authRoute;

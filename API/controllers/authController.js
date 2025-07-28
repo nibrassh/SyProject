@@ -1,7 +1,7 @@
 import User from "../models/userModel.js";
 import jwt from "jsonwebtoken";
+import bcrypt from 'bcrypt'
 
-// مستخدم admin مؤقت للاختبار
 const tempAdminUser = {
   _id: "admin123",
   email: "admin@test.com",
@@ -20,9 +20,27 @@ export const signIn = async (req, res) => {
       });
     }
 
-    // التحقق من المستخدم المؤقت أولاً
+    let currentUser;
+
+    // Check if login is using the temporary admin
     if (email === tempAdminUser.email && password === tempAdminUser.password) {
-      const user = tempAdminUser;
+      currentUser = tempAdminUser;
+    } else {
+      const user = await User.findOne({ email });
+      if (!user) {
+        return res.status(401).json({
+          success: false,
+          message: "Invalid credentials",
+        });
+      }
+
+      const isMatch = await bcrypt.compare(password, user.password);
+      if (!isMatch) {
+        return res.status(401).json({
+          success: false,
+          message: "Invalid credentials",
+        });
+      }
 
       if (!user.isAdmin) {
         return res.status(403).json({
@@ -30,36 +48,9 @@ export const signIn = async (req, res) => {
           message: "Account is deactivated",
         });
       }
-    } else {
-      // محاولة البحث في قاعدة البيانات
-      try {
-        const user = await User.findOne({ email , password });
-        if (!user) {
-          return res.status(401).json({
-            success: false,
-            message: "Invalid credentials",
-          });
-        }
 
-        if (!user.isAdmin) {
-          return res.status(403).json({
-            success: false,
-            message: "Account is deactivated",
-          });
-        }
-      } catch (dbError) {
-        // في حالة عدم توفر قاعدة البيانات، استخدم المستخدم المؤقت
-        return res.status(401).json({
-          success: false,
-          message: "Invalid credentials",
-        });
-      }
+      currentUser = user;
     }
-
-    // استخدام المستخدم المؤقت أو من قاعدة البيانات
-    const currentUser = (email === tempAdminUser.email && password === tempAdminUser.password)
-      ? tempAdminUser
-      : await User.findOne({ email, password });
 
     const token = jwt.sign(
       {
@@ -70,7 +61,7 @@ export const signIn = async (req, res) => {
       { expiresIn: "1d" }
     );
 
-    // حفظ المستخدم فقط إذا كان من قاعدة البيانات
+    // Save the user only if it’s from the database
     if (currentUser !== tempAdminUser) {
       await currentUser.save();
     }
@@ -92,11 +83,134 @@ export const signIn = async (req, res) => {
       token,
       user: userData,
     });
+
   } catch (error) {
     return res.status(500).json({
       success: false,
       message: "Internal server error",
-      error: error.message 
+      error: error.message,
+    });
+  }
+};
+
+export const createUser = async (req, res) => {
+  try {
+    const { name, email, password, isAdmin } = req.body;
+
+    if (!name || !email || !password) {
+      return res.status(403).json({
+        success: false,
+        message: "Invalid credentials",
+      });
+    }
+
+    const existUser = await User.findOne({ email });
+    if (existUser) {
+      return res.status(403).json({
+        success: false,
+        message: "The user already exists",
+      });
+    }
+
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    const newUser = await User.create({
+      name,
+      email,
+      password: hashedPassword,
+      isAdmin: isAdmin || false,
+    });
+
+    return res.status(200).json({
+      success: true,
+      message: "User created successfully",
+      user: newUser,
+    });
+
+  } catch (error) {
+    return res.status(500).json({
+      success: false,
+      message: "Internal server error",
+      error: error.message,
+    });
+  }
+};
+
+
+export const deleteUser = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+     const user = await User.findById(id);
+    if (!user) {
+      return res.status(404).json({
+        success: false,
+        message: "User not found",
+      });
+    }
+
+    // Delete the user
+    await User.findByIdAndDelete(id);
+
+    return res.status(200).json({
+      success: true,
+      message: "User deleted successfully",
+    });
+  } catch (error) {
+    return res.status(500).json({
+      success: false,
+      message: "Internal server error",
+      error: error.message,
+    });
+  }
+};
+
+
+export const toggleUserAdmin = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+  
+    const user = await User.findById(id);
+    if (!user) {
+      return res.status(404).json({
+        success: false,
+        message: "User not found",
+      });
+    }
+
+    user.isAdmin = !user.isAdmin;
+    await user.save();
+
+    return res.status(200).json({
+      success: true,
+      message: `User admin status updated to ${user.isAdmin}`,
+      user,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      success: false,
+      message: "Internal server error",
+      error: error.message,
+    });
+  }
+};
+
+
+export const getUsers = async (req, res) => {
+  try {
+    const users = await User.find().select('-password'); 
+
+    return res.status(200).json({
+      success: true,
+      message: "Users fetched successfully",
+      users,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      success: false,
+      message: "Internal server error",
+      error: error.message,
     });
   }
 };

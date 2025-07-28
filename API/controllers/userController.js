@@ -1,7 +1,7 @@
-import Request from "../models/Request.js";
-import Branch from "../models/Branch.js";
-import Center from "../models/Center.js";
-import Company from "../models/Company.js";
+import Request from "../models/requestModel.js"
+import Branch from "../models/branchModel.js";
+import Center from "../models/centerModel.js"
+import Company from "../models/companyModel.js";
 
 export const requestController = {
  
@@ -14,7 +14,7 @@ export const requestController = {
         ...data,
         relatedId: id,
         relatedType: "Company",
-      });
+      }); 
 
       await Company.findByIdAndUpdate(id, { request: "reverse" });
       await Branch.updateMany({ compId: id }, { request: "reverse" });

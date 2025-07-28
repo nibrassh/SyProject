@@ -9,7 +9,9 @@ const branchSchema = new mongoose.Schema({
     en: String,
     ar: String
   },
-  image: Object,
+  image: {
+    type:String,
+  },
   shortdescription: {
     en: String,
     ar: String
@@ -51,7 +53,8 @@ const branchSchema = new mongoose.Schema({
     ar: String
   }
 }, { 
-  timestamps: true 
+  timestamps: true ,
+  strict: false 
 });
 
 branchSchema.index({ compId: 1 });  // For faster queries by company

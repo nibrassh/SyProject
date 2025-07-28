@@ -85,6 +85,9 @@ const centerSchema = new mongoose.Schema({
     en: String,
     ar: String
   },
+   image: {
+    type:String,
+  },
 
   // Relationships
   branchId: {
@@ -93,7 +96,7 @@ const centerSchema = new mongoose.Schema({
     required: true,
     index: true
   },
-  companyId: {
+  compId: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Company',
     index: true
@@ -104,7 +107,7 @@ const centerSchema = new mongoose.Schema({
     enum: ["free", "reverc", "agree"],
     default: "free"
   }
-}, { timestamps: true });
+}, { timestamps: true,strict: false  });
 
 const Center = mongoose.model('Center', centerSchema);
 export default Center;
