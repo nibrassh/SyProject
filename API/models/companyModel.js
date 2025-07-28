@@ -10,7 +10,7 @@ const companySchema = new mongoose.Schema({
     ar: { type: String, required: true },
   },
   image: {
-    type: Object,
+    type: String,
   },
   shortdescription: {
     en: String,
@@ -45,7 +45,7 @@ const companySchema = new mongoose.Schema({
     en: String,
     ar: String
   }
-}, { timestamps: true });
+}, { timestamps: true,strict: false   });
 
 const Company = mongoose.model('Company', companySchema);
 export default Company;

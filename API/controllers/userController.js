@@ -14,7 +14,7 @@ export const requestController = {
         ...data,
         relatedId: id,
         relatedType: "Company",
-      });
+      }); 
 
       await Company.findByIdAndUpdate(id, { request: "reverse" });
       await Branch.updateMany({ compId: id }, { request: "reverse" });
