@@ -35,31 +35,31 @@ adminRoute.get("/company/:id", companyController.getCompanyById);
 
 // ------------------- Branch Routes -------------------
 adminRoute.post(
-  "/add-branch/:id",
-  verifyToken,
+  "/add-bransh/:id",
+ 
   upload.single("image"),
   branchController.createBranch
 );
 
 adminRoute.put(
-  "/update-branch/:id",
+  "/update-bransh/:id",
   verifyToken,
   upload.single("image"),
   branchController.updateBranch
 );
 
 adminRoute.delete(
-  "/delete-branch/:id",
+  "/delete-bransh/:id",
   verifyToken,
   branchController.deleteBranch
 );
-adminRoute.get("/branches/:id", branchController.getAllBranches);
-adminRoute.get("/branch/:id", branchController.getBranchById);
+adminRoute.get("/branshes/:id", branchController.getAllBranches);
+adminRoute.get("/bransh/:id", branchController.getBranchById);
 
 // ------------------- Center Routes -------------------
 adminRoute.post(
   "/add-center/:id",
-  verifyToken,
+verifyToken,
   upload.single("image"),
   centerController.createCenter
 );

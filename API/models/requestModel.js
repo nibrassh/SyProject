@@ -118,7 +118,7 @@ const requestSchema = new mongoose.Schema(
       relatedType: {
       type: String,
       required: true,
-      enum: ['Company', 'Branch', 'Center']
+      enum: ['Company', 'Bransh', 'Center']
     },
   },
   {

@@ -96,6 +96,7 @@ const centerSchema = new mongoose.Schema({
     required: true,
     index: true
   },
+  
   compId: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Company',

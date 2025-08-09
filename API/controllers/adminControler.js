@@ -399,11 +399,11 @@ export const branchController = {
 
   getAllBranches: async (req, res) => {
     try {
-      const { compId } = req.params;
+      const { id } = req.params;
+  console.log(id)
+      const branshes = await Branch.find({ compId:id })
 
-      const branches = await Branch.find({ compId })
-
-      return res.json({ success: true, branches });
+      return res.json({ success: true, branshes });
     } catch (error) {
       console.error("Error fetching branches:", error);
       return res.status(500).json({ success: false, message: "Server error", error: error.message });
@@ -445,7 +445,7 @@ export const centerController = {
       }
 
       // Find branch
-      const branch = await Branch.findById(branchId);
+      const branch = await Branch.find({_id: branchId});
       if (!branch) {
         return res.status(404).json({
           success: false,
@@ -454,7 +454,7 @@ export const centerController = {
       }
 
       const companyId = branch.compId; // Fixed: get companyId from branch
-
+          console.log(companyId)
       // Parse data
       const name = autoParse(raw.name);
       const description = autoParse(raw.description);
@@ -683,10 +683,10 @@ export const centerController = {
       });
     }
   },
+  
   getCentersByBranchId: async (req, res) => {
     try {
-      const { branchId } = req.params;
-
+      const  branchId  = req.params.id;
       const centers = await Center.find({ branchId });
 
       return res.json({

@@ -6,42 +6,44 @@ import axios from "axios"
 import OpportunitiesList from "@/components/OpportunitiesList"
 
 import dynamic from 'next/dynamic'
+import { useParams } from "next/navigation"
 
 const OpportunitiesMap = dynamic(() => import('@/components/OpportunitiesMap'), {
   ssr: false,
 })
 
 export default function OpportunitiesPage() {
-  const [companies, setCompanies] = useState([])
+  const [branshes, setBranshes] = useState([])
+const { branshId } = useParams() as { branshId: string }
     const [viewMode, setViewMode] = useState<'map' | 'list'>('list')
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
 
   useEffect(() => {
-    const fetchCompanies = async () => {
+    const fetchBranshes = async () => {
       setLoading(true)
       setError(null)
       try {
         const response = await axios.get(
-          `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/admin/v1/companies`
+          `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/admin/v1/centers/${branshId}`
         )
-        setCompanies(response.data.companies)
+          setBranshes(response.data.centers)
       } catch (err: any) {
-        console.error("Error fetching companies:", err)
-        setError("Failed to load companies. Please try again.")
+        console.error("Error fetching centers:", err)
+        setError("Failed to load centers. Please try again.")
       } finally {
         setLoading(false)
       }
     }
 
-    fetchCompanies()
-  }, [])
+    fetchBranshes()
+  }, [branshId])
 
   return (
     <Layout>
       {loading && (
         <div className="flex justify-center items-center h-64 text-xl">
-          Loading companies...
+          Loading centers...
         </div>
       )}
 
@@ -54,15 +56,15 @@ export default function OpportunitiesPage() {
 {!loading && !error && (
   viewMode === 'map' ? (
     <OpportunitiesMap
-    type={"company"}
-      opportunities={companies}
+     type={"center"}
+      opportunities={branshes || []}
       viewMode={viewMode}
       setViewMode={setViewMode}
     />
   ) : (
     <OpportunitiesList
-     type={"company"}
-      opportunities={companies}
+     type={"center"}
+      opportunities={branshes || []}
       viewMode={viewMode}
       setViewMode={setViewMode}
     />

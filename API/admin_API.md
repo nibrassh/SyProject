@@ -45,34 +45,34 @@
 
 ## Branch Routes
 
-### POST /add-branch/:id
+### POST /add-bransh/:id
 
 - **Description:** Create a new branch
 - **Requires Auth:** Yes
 - **Data:** Body (JSON), optional image file (`image` field)
 - **Notes:** Requires `compId` (company ID)
 
-### PUT /update-branch/:id
+### PUT /update-bransh/:id
 
 - **Description:** Update branch by ID
 - **Requires Auth:** Yes
 - **Data:** Params: `id` for branch, Body (JSON)
 - **Notes:** Supports `newdata` array
 
-### DELETE /delete-branch/:id
+### DELETE /delete-bransh/:id
 
 - **Description:** Delete branch by ID
 - **Requires Auth:** Yes
 - **Data:** Params: `id`
 - **Notes:** Also deletes all centers inside the branch
 
-### GET /branches/:id
+### GET /branshes/:id
 
 - **Description:** Get all branches for a company
 - **Data:** company id from params
 - **Notes:** Returns all branches fro a company 
 
-### GET /branch/:id
+### GET /bransh/:id
 
 - **Description:** Get branch by ID with centers populated
 - **Data:** Params: `id`for bransh

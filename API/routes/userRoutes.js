@@ -6,7 +6,7 @@ const userRoute = express.Router();
 userRoute.post('/request/company/:id', requestController.companyRequest);
 
 
-userRoute.post('/request/branch/:id', requestController.branchRequest);
+userRoute.post('/request/bransh/:id', requestController.branchRequest);
 
 
 userRoute.post('/request/center/:id', requestController.centerRequest);
