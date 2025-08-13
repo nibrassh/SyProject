@@ -30,7 +30,7 @@ const companySchema = new mongoose.Schema({
     enum: ["free", "reverc", "agree"],
     default: "free"
   },
-  branches: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Branch' }],
+  branches: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Branch',default: [] }],
   
 
   numberOfEmployees: {

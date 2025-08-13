@@ -3,7 +3,9 @@ import mongoose from "mongoose";
 
 const userSchema= new mongoose.Schema({
     name:{
-        type:String
+        type:String,
+        required:true,
+        
     },
     email:{
         type:String,
@@ -14,6 +16,11 @@ const userSchema= new mongoose.Schema({
          type:String,
         required:true,
         uniqe:true
+    },
+    refreshToken:{
+         type:String,
+        required:true,
+        default:""
     },
     isAdmin:{
         type:Boolean,

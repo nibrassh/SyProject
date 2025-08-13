@@ -6,6 +6,7 @@ const requestSchema = new mongoose.Schema(
     email: {
       type: String,
       required: true,
+        match: [/^\S+@\S+\.\S+$/, 'Please enter a valid email address']
     },
     phone: {
       type: String,
@@ -26,12 +27,11 @@ const requestSchema = new mongoose.Schema(
       required: true,
     },
     companyCapital: {
-      type: Number, // in Syrian Pounds
+      type: Number, 
       required: true,
     },
 
-    // 3. Company Business Field
-    businessField: {
+      businessField: {
       type: String,
       required: true,
     },
@@ -101,7 +101,7 @@ const requestSchema = new mongoose.Schema(
       required: true,
     },
 
-    // 9. Financial Status
+
     financialObligations: {
       type: String,
       required: true,
@@ -118,7 +118,7 @@ const requestSchema = new mongoose.Schema(
       relatedType: {
       type: String,
       required: true,
-      enum: ['Company', 'Bransh', 'Center']
+      enum: ['Company', 'branch', 'Center']
     },
   },
   {

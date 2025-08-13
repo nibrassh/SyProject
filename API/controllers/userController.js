@@ -6,19 +6,19 @@ import Company from "../models/companyModel.js";
 export const requestController = {
  
   companyRequest: async (req, res) => {
-    const { id } = req.params;
+    const { companyId } = req.params;
     const data = req.body;
 
     try {
       const companyRequest = await Request.create({
         ...data,
-        relatedId: id,
+        relatedId: companyId,
         relatedType: "Company",
       }); 
 
-      await Company.findByIdAndUpdate(id, { request: "reverse" });
-      await Branch.updateMany({ compId: id }, { request: "reverse" });
-      await Center.updateMany({ compId: id }, { request: "reverse" });
+      await Company.findByIdAndUpdate(companyId, { request: "reverse" });
+      await Branch.updateMany({ compId: companyId }, { request: "reverse" });
+      await Center.updateMany({ compId: companyId }, { request: "reverse" });
 
       res.status(201).json({
         message: "Request created for company. Branches and centers updated.",
@@ -31,18 +31,18 @@ export const requestController = {
   },
 
   branchRequest: async (req, res) => {
-    const { id } = req.params;
+    const { branchId } = req.params;
     const data = req.body;
 
     try {
       const branchRequest = await Request.create({
         ...data,
-        relatedId: id,
+        relatedId: branchId,
         relatedType: "Branch",
       });
 
-      await Branch.findByIdAndUpdate(id, { request: "reverse" });
-      await Center.updateMany({ branchId: id }, { request: "reverse" });
+      await Branch.findByIdAndUpdate(branchId, { request: "reverse" });
+      await Center.updateMany({  branchId }, { request: "reverse" });
 
       res.status(201).json({
         message: "Request created for branch. Centers updated.",
@@ -56,17 +56,17 @@ export const requestController = {
 
   // Center Request
   centerRequest: async (req, res) => {
-    const { id } = req.params;
+    const { centerId } = req.params;
     const data = req.body;
 
     try {
       const centerRequest = await Request.create({
         ...data,
-        relatedId: id,
+        relatedId: centerId,
         relatedType: "Center",
       });
 
-      await Center.findByIdAndUpdate(id, { request: "reverse" });
+      await Center.findByIdAndUpdate(centerId, { request: "reverse" });
 
       res.status(201).json({
         message: "Request created for center.",

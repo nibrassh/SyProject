@@ -25,16 +25,16 @@ const centerSchema = new mongoose.Schema({
   },
 
  
-  theoreticalCapacity: {  // الإنتاجية النظرية
-    value: { type: Number, required: true },
+  theoreticalCapacity: {  
+    value: { type: Number },
     unit: { type: String }
   },
-  actualCapacity: {  // الإنتاجية الفعلية
-    value: { type: Number, required: true },
+  actualCapacity: { 
+    value: { type: Number },
     unit: { type: String  }
   },
-  technicalReadiness: { type: Number },  // الجاهزية الفنية (percentage)
-  specificationCompliance: {  // مطابقة المواصفات
+  technicalReadiness: { type: Number },  
+  specificationCompliance: {  
     en: String,
     ar: String
   },
@@ -48,30 +48,28 @@ const centerSchema = new mongoose.Schema({
     specification: String 
   }],
 
-  // Cost Information
-  currentProductCost: {  // كلفة المنتج الحالية
+
+  currentProductCost: { 
     value: { type: Number },
     currency: { type: String, default: "SYP" },
-    specification: String  // e.g., "عيار 350 كغ/م3"
+    specification: String 
   },
-  monthlyMaintenanceCost: {  // كلفة صيانة شهريا
+  monthlyMaintenanceCost: { 
     value: { type: Number },
     currency: { type: String, default: "SYP" }
   },
-  operatingCosts: {  // كلفة التشغيل
+  operatingCosts: {  
     equipment: [{  
       en: String,
       ar: String
     }],
-    laborCosts: {  // أجور يد عاملة
+    laborCosts: {
       value: { type: Number },
       currency: { type: String, default: "SYP" }
     }
   },
 
-  
-  // Staffing Information
-  staffStatus: {  // حالة الطاقم (e.g., "طاقم المجبل غير موجود")
+    staffStatus: { 
     en: String,
     ar: String
   },

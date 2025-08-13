@@ -1,0 +1,404 @@
+openapi: 3.0.3
+info:
+  title: Admin Branch API
+  version: 1.0.0
+  description: API endpoints to manage branches (create, update, delete, list, get details) for companies with multilingual fields and image upload.
+
+servers:
+  - url: http://localhost:5000/api/admin/v1
+
+components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: >
+        JWT access token should be sent as a cookie named `accessToken`.
+        The frontend must send credentials with requests (e.g., `credentials: 'include'` in fetch).
+
+  schemas:
+    MultilingualString:
+      type: object
+      properties:
+        en:
+          type: string
+          example: "English text"
+        ar:
+          type: string
+          example: "النص العربي"
+      required:
+        - en
+        - ar
+
+    Location:
+      type: array
+      description: Coordinates [longitude, latitude]
+      items:
+        type: number
+      minItems: 2
+      maxItems: 2
+      example: [35.6895, 139.6917]
+
+    Branch:
+      type: object
+      properties:
+        _id:
+          type: string
+          example: "64dca33fbc4c57f8b12e5678"
+        name:
+          $ref: '#/components/schemas/MultilingualString'
+        address:
+          $ref: '#/components/schemas/MultilingualString'
+        image:
+          type: string
+          description: Base64 encoded image string
+          example: "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD..."
+        shortdescription:
+          $ref: '#/components/schemas/MultilingualString'
+        longdescription:
+          $ref: '#/components/schemas/MultilingualString'
+        location:
+          $ref: '#/components/schemas/Location'
+        request:
+          type: string
+          enum: ["free", "reverc", "agree"]
+          example: "free"
+        compId:
+          type: string
+          description: Company ObjectId
+          example: "64dca33fbc4c57f8b12e1234"
+        centers:
+          type: array
+          items:
+            type: string
+            description: Center ObjectId
+        numberOfEmployees:
+          type: integer
+          example: 10
+        notes:
+          $ref: '#/components/schemas/MultilingualString'
+        machinery:
+          $ref: '#/components/schemas/MultilingualString'
+        createdAt:
+          type: string
+          format: date-time
+          example: "2023-08-20T10:00:00Z"
+        updatedAt:
+          type: string
+          format: date-time
+          example: "2023-08-21T15:30:00Z"
+      required:
+        - name
+        - location
+        - compId
+
+    BranchCreateRequest:
+      type: object
+      description: Data to create a branch. Send image as multipart form data (field name "image").
+      properties:
+        name:
+          $ref: '#/components/schemas/MultilingualString'
+        address:
+          $ref: '#/components/schemas/MultilingualString'
+        shortdescription:
+          $ref: '#/components/schemas/MultilingualString'
+          description: Optional short description
+        longdescription:
+          $ref: '#/components/schemas/MultilingualString'
+          description: Optional long description
+        location:
+          $ref: '#/components/schemas/Location'
+          description: Coordinates [longitude, latitude]
+        machinery:
+          $ref: '#/components/schemas/MultilingualString'
+          description: Optional machinery description
+        notes:
+          $ref: '#/components/schemas/MultilingualString'
+          description: Optional notes
+        numberOfEmployees:
+          type: integer
+          description: Number of employees
+        request:
+          type: string
+          enum: ["free", "reverc", "agree"]
+          default: "free"
+        newdata:
+          type: array
+          description: Optional additional multilingual fields, e.g. [{ "fieldKey": { "en": "val", "ar": "val" }}]
+          items:
+            type: object
+      required:
+        - name
+        - location
+
+    BranchUpdateRequest:
+      type: object
+      description: Fields to update a branch. Send image as multipart form data (field name "image").
+      properties:
+        name:
+          $ref: '#/components/schemas/MultilingualString'
+        address:
+          $ref: '#/components/schemas/MultilingualString'
+        shortdescription:
+          $ref: '#/components/schemas/MultilingualString'
+        longdescription:
+          $ref: '#/components/schemas/MultilingualString'
+        location:
+          $ref: '#/components/schemas/Location'
+        machinery:
+          $ref: '#/components/schemas/MultilingualString'
+        notes:
+          $ref: '#/components/schemas/MultilingualString'
+        numberOfEmployees:
+          type: integer
+        request:
+          type: string
+          enum: ["free", "reverc", "agree"]
+        newdata:
+          type: array
+          items:
+            type: object
+
+    ErrorResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: false
+        message:
+          type: string
+          example: "Error message here"
+        error:
+          type: string
+          example: "Detailed error message"
+
+    SuccessResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: true
+        message:
+          type: string
+          example: "Operation successful"
+
+paths:
+
+  /companies/{companyId}/branches:
+    post:
+      summary: Create a new branch for a company
+      tags: [Branches]
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: companyId
+          in: path
+          required: true
+          description: Company ObjectId
+          schema:
+            type: string
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              allOf:
+                - $ref: '#/components/schemas/BranchCreateRequest'
+                - type: object
+                  properties:
+                    image:
+                      type: string
+                      format: binary
+                      description: Image file upload
+        required: true
+      responses:
+        '201':
+          description: Branch created successfully
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/SuccessResponse'
+                  - type: object
+                    properties:
+                      branchId:
+                        type: string
+                        example: "64dca33fbc4c57f8b12e5678"
+        '400':
+          description: Missing or invalid fields
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Company not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+    get:
+      summary: Get all branches for a company (public)
+      tags: [Branches]
+      parameters:
+        - name: companyId
+          in: path
+          required: true
+          description: Company ObjectId
+          schema:
+            type: string
+      responses:
+        '200':
+          description: List of branches
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  branches:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Branch'
+        '500':
+          description: Server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /branches/{branchId}:
+    get:
+      summary: Get a branch by ID (public)
+      tags: [Branches]
+      parameters:
+        - name: branchId
+          in: path
+          required: true
+          description: Branch ObjectId
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Branch details
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  branch:
+                    $ref: '#/components/schemas/Branch'
+        '404':
+          description: Branch not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+    put:
+      summary: Update a branch (admin protected)
+      tags: [Branches]
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: branchId
+          in: path
+          required: true
+          description: Branch ObjectId
+          schema:
+            type: string
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              allOf:
+                - $ref: '#/components/schemas/BranchUpdateRequest'
+                - type: object
+                  properties:
+                    image:
+                      type: string
+                      format: binary
+                      description: Image file upload
+        required: true
+      responses:
+        '200':
+          description: Branch updated successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: "Branch updated successfully"
+                  branch:
+                    $ref: '#/components/schemas/Branch'
+        '404':
+          description: Branch not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+    delete:
+      summary: Delete a branch (admin protected)
+      tags: [Branches]
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: branchId
+          in: path
+          required: true
+          description: Branch ObjectId
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Branch and its centers deleted successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessResponse'
+        '404':
+          description: Branch not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+tags:
+  - name: Branches
+    description: Operations related to branch entities
+

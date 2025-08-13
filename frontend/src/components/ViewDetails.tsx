@@ -8,7 +8,7 @@ import InvestmentRequest from './InvestmentFormModal';
 
 interface ViewDetailsProps {
   opportunity: Record<string, any>;
-  type: 'company' | 'bransh' | 'center';
+  type: 'company' | 'branch' | 'center';
 }
 
 export default function ViewDetails({ opportunity, type }: ViewDetailsProps) {
@@ -77,7 +77,7 @@ export default function ViewDetails({ opportunity, type }: ViewDetailsProps) {
       )}
 
       {/* Descriptions */}
-      {(type === 'company' || type === 'bransh') && (
+      {(type === 'company' || type === 'branch') && (
         <>
           {opportunity.shortdescription && (
             <p className="text-xl text-gray-700">
@@ -140,7 +140,7 @@ export default function ViewDetails({ opportunity, type }: ViewDetailsProps) {
           </Link>
         )}
 
-        {type === 'bransh' && opportunity.centers?.length > 0 && (
+        {type === 'branch' && opportunity.centers?.length > 0 && (
           <Link
             href={`/opportunities/${opportunity.compId}/${opportunity._id}`}
             className="bg-green-400 hover:bg-green-700 text-white text-lg px-6 py-3 rounded-full shadow-lg transition duration-200"

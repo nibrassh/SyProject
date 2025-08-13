@@ -13,21 +13,21 @@ const OpportunitiesMap = dynamic(() => import('@/components/OpportunitiesMap'), 
 })
 
 export default function OpportunitiesPage() {
-  const [branshes, setBranshes] = useState([])
-const { branshId } = useParams() as { branshId: string }
+  const [branches, setbranches] = useState([])
+const { branchId } = useParams() as { branchId: string }
     const [viewMode, setViewMode] = useState<'map' | 'list'>('list')
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
 
   useEffect(() => {
-    const fetchBranshes = async () => {
+    const fetchbranches = async () => {
       setLoading(true)
       setError(null)
       try {
         const response = await axios.get(
-          `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/admin/v1/centers/${branshId}`
+          `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/admin/v1/centers/${branchId}`
         )
-          setBranshes(response.data.centers)
+          setbranches(response.data.centers)
       } catch (err: any) {
         console.error("Error fetching centers:", err)
         setError("Failed to load centers. Please try again.")
@@ -36,8 +36,8 @@ const { branshId } = useParams() as { branshId: string }
       }
     }
 
-    fetchBranshes()
-  }, [branshId])
+    fetchbranches()
+  }, [branchId])
 
   return (
     <Layout>
@@ -57,14 +57,14 @@ const { branshId } = useParams() as { branshId: string }
   viewMode === 'map' ? (
     <OpportunitiesMap
      type={"center"}
-      opportunities={branshes || []}
+      opportunities={branches || []}
       viewMode={viewMode}
       setViewMode={setViewMode}
     />
   ) : (
     <OpportunitiesList
      type={"center"}
-      opportunities={branshes || []}
+      opportunities={branches || []}
       viewMode={viewMode}
       setViewMode={setViewMode}
     />

@@ -1,0 +1,301 @@
+openapi: 3.0.3
+info:
+  title: Admin Request API
+  version: 1.0.0
+  description: API endpoints for admin to manage requests and their states.
+
+servers:
+  - url: http://localhost:5000/api/admin/v1
+
+components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
+  schemas:
+    RequestSummary:
+      type: object
+      properties:
+        _id:
+          type: string
+          example: "64dca33fbc4c57f8b12e5678"
+        relatedId:
+          type: string
+          example: "64dca33fbc4c57f8b12e1234"
+        relatedType:
+          type: string
+          enum: [Company, Branch, Center]
+          example: "Company"
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+
+    RequestDetails:
+      allOf:
+        - $ref: '#/components/schemas/RequestSummary'
+        - type: object
+          properties:
+            requestData:
+              type: object
+              description: Related document data (Company/Branch/Center) with possible population of nested fields
+
+    SuccessResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: true
+        message:
+          type: string
+          example: "Operation successful"
+
+    ErrorResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: false
+        message:
+          type: string
+          example: "Error message"
+        error:
+          type: string
+          example: "Detailed error info"
+
+paths:
+
+  /requests:
+    get:
+      summary: Get all requests (admin only)
+      tags:
+        - Requests
+      security:
+        - BearerAuth: []
+      responses:
+        '200':
+          description: List of all requests
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  requests:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/RequestSummary'
+        '500':
+          description: Server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /requests/state:
+    post:
+      summary: Get requests filtered by state (agree or reverse) (admin only)
+      tags:
+        - Requests
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                state:
+                  type: string
+                  enum: [agree, reverse]
+                  example: "agree"
+      responses:
+        '200':
+          description: Filtered requests by state
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  state:
+                    type: string
+                    example: "agree"
+                  requests:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/RequestSummary'
+        '400':
+          description: Invalid state value
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /requests/free:
+    get:
+      summary: Get requests with "free" state (admin only)
+      tags:
+        - Requests
+      security:
+        - BearerAuth: []
+      responses:
+        '200':
+          description: List of free state requests
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  state:
+                    type: string
+                    example: "free"
+                  requests:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/RequestSummary'
+        '500':
+          description: Server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /requests/{requestId}:
+    get:
+      summary: Get request details by ID (admin only)
+      tags:
+        - Requests
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: requestId
+          in: path
+          required: true
+          description: Request document ID
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Request details including related document
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  request:
+                    $ref: '#/components/schemas/RequestSummary'
+                  relatedDocument:
+                    type: object
+                    description: The related Company, Branch, or Center document (populated)
+        '404':
+          description: Request not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+    delete:
+      summary: Delete a request by ID (admin only)
+      tags:
+        - Requests
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: requestId
+          in: path
+          required: true
+          description: Request ID to delete
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Request deleted successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessResponse'
+        '404':
+          description: Request not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /requests/{requestId}/state:
+    put:
+      summary: Change request state (admin only)
+      tags:
+        - Requests
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: requestId
+          in: path
+          required: true
+          description: Request ID
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                state:
+                  type: string
+                  enum: [agree, reverse, free]
+                  example: "agree"
+      responses:
+        '200':
+          description: Request state changed successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessResponse'
+        '404':
+          description: Request not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'

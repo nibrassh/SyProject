@@ -52,7 +52,7 @@ export default function OpportunitiesList({ opportunities, viewMode, setViewMode
           <option value="">
   {
     type === 'company' ? t('companies') :
-    type === 'bransh' ? (isArabic ? "الفروع" : "branshes") :
+    type === 'branch' ? (isArabic ? "الفروع" : "branches") :
     type === 'center' ? (isArabic ? "المراكز" : "centers") :
     ''
   }
@@ -160,7 +160,7 @@ export default function OpportunitiesList({ opportunities, viewMode, setViewMode
     </Link>
   )}
 
-  {type === 'bransh' && item.centers?.length > 0 && (
+  {type === 'branch' && item.centers?.length > 0 && (
     <Link
       href={`/opportunities/${item.compId}/${item._id}`}
       className="text-indigo-600 font-semibold hover:underline flex items-center"

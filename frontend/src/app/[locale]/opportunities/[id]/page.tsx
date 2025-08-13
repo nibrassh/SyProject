@@ -13,37 +13,37 @@ const OpportunitiesMap = dynamic(() => import('@/components/OpportunitiesMap'), 
 })
 
 export default function OpportunitiesPage() {
-  const [branshes, setBranshes] = useState([])
+  const [branches, setbranches] = useState([])
 const { id } = useParams() as { id: string }
     const [viewMode, setViewMode] = useState<'map' | 'list'>('list')
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
 
   useEffect(() => {
-    const fetchBranshes = async () => {
+    const fetchbranches = async () => {
       setLoading(true)
       setError(null)
       try {
         const response = await axios.get(
-          `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/admin/v1/branshes/${id}`
+          `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/admin/v1/branches/${id}`
         )
-        setBranshes(response.data.branshes)
+        setbranches(response.data.branches)
       } catch (err: any) {
         console.error("Error fetching companies:", err)
-        setError("Failed to load branshes. Please try again.")
+        setError("Failed to load branches. Please try again.")
       } finally {
         setLoading(false)
       }
     }
 
-    fetchBranshes()
+    fetchbranches()
   }, [id])
 
   return (
     <Layout>
       {loading && (
         <div className="flex justify-center items-center h-64 text-xl">
-          Loading branshes...
+          Loading branches...
         </div>
       )}
 
@@ -56,15 +56,15 @@ const { id } = useParams() as { id: string }
 {!loading && !error && (
   viewMode === 'map' ? (
     <OpportunitiesMap
-     type={"bransh"}
-      opportunities={branshes || []}
+     type={"branch"}
+      opportunities={branches || []}
       viewMode={viewMode}
       setViewMode={setViewMode}
     />
   ) : (
     <OpportunitiesList
-     type={"bransh"}
-      opportunities={branshes || []}
+     type={"branch"}
+      opportunities={branches || []}
       viewMode={viewMode}
       setViewMode={setViewMode}
     />

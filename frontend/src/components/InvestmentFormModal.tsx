@@ -60,7 +60,7 @@ const handleSubmit = async (e: React.FormEvent) => {
   try {
     let relatedType = '';
     if (type === 'company') relatedType = 'Company';
-    else if (type === 'bransh') relatedType = 'Bransh';
+    else if (type === 'branch') relatedType = 'branch';
     else if (type === 'center') relatedType = 'Center';
 
     const url = `http://localhost:5000/api/user/v1/request/${type}/${id}`;

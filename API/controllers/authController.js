@@ -1,95 +1,75 @@
 import User from "../models/userModel.js";
 import jwt from "jsonwebtoken";
-import bcrypt from 'bcrypt'
-
-const tempAdminUser = {
-  _id: "admin123",
-  email: "admin@test.com",
-  password: "admin1234",
-  isAdmin: true
-};
+import bcrypt from "bcrypt";
 
 export const signIn = async (req, res) => {
   try {
     const { email, password } = req.body;
-
     if (!email || !password) {
-      return res.status(400).json({
-        success: false,
-        message: "Both email and password are required",
-      });
+      return res
+        .status(400)
+        .json({
+          success: false,
+          message: "Both email and password are required",
+        });
     }
 
-    let currentUser;
-
-    // Check if login is using the temporary admin
-    if (email === tempAdminUser.email && password === tempAdminUser.password) {
-      currentUser = tempAdminUser;
-    } else {
-      const user = await User.findOne({ email });
-      if (!user) {
-        return res.status(401).json({
-          success: false,
-          message: "Invalid credentials",
-        });
-      }
-
-      const isMatch = await bcrypt.compare(password, user.password);
-      if (!isMatch) {
-        return res.status(401).json({
-          success: false,
-          message: "Invalid credentials",
-        });
-      }
-
-      if (!user.isAdmin) {
-        return res.status(403).json({
-          success: false,
-          message: "Account is deactivated",
-        });
-      }
-
-      currentUser = user;
+    const user = await User.findOne({ email });
+    if (!user || !(await bcrypt.compare(password, user.password))) {
+      return res
+        .status(401)
+        .json({ success: false, message: "Invalid credentials" });
     }
 
-    const token = jwt.sign(
-      {
-        id: currentUser._id,
-        isAdmin: currentUser.isAdmin,
-      },
+    if (!user.isAdmin) {
+      return res
+        .status(403)
+        .json({ success: false, message: "Account is deactivated" });
+    }
+
+    const accessToken = jwt.sign(
+      { id: user._id, isAdmin: user.isAdmin },
       process.env.JWT_SECRET,
-      { expiresIn: "1d" }
+      { expiresIn: "15m" }
     );
 
-    // Save the user only if it’s from the database
-    if (currentUser !== tempAdminUser) {
-      await currentUser.save();
-    }
+    const refreshToken = jwt.sign(
+      { id: user._id },
+      process.env.JWT_REFRESH_SECRET,
+      { expiresIn: "7d" }
+    );
 
-    const userData = {
-      _id: currentUser._id,
-      email: currentUser.email,
-      isAdmin: currentUser.isAdmin,
-    };
+    // Optionally save refresh token in DB for invalidation later
+    user.refreshToken = refreshToken;
+    await user.save();
 
-    res.cookie("token", token, {
+    res.cookie("accessToken", accessToken, {
       httpOnly: true,
-      maxAge: 24 * 60 * 60 * 1000, // 1 day
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "strict",
+      maxAge: 15 * 60 * 1000,
+    });
+
+    res.cookie("refreshToken", refreshToken, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "strict",
+      maxAge: 7 * 24 * 60 * 60 * 1000,
     });
 
     return res.status(200).json({
       success: true,
       message: "Sign in successful",
-      token,
-      user: userData,
+      user: { _id: user._id, email: user.email, isAdmin: user.isAdmin },
     });
-
   } catch (error) {
-    return res.status(500).json({
-      success: false,
-      message: "Internal server error",
-      error: error.message,
-    });
+    return res
+      .status(500)
+      .json({
+        success: false,
+        message: "Internal server error",
+        error: error.message,
+      });
   }
 };
 
@@ -126,7 +106,6 @@ export const createUser = async (req, res) => {
       message: "User created successfully",
       user: newUser,
     });
-
   } catch (error) {
     return res.status(500).json({
       success: false,
@@ -136,12 +115,11 @@ export const createUser = async (req, res) => {
   }
 };
 
-
 export const deleteUser = async (req, res) => {
   try {
     const { id } = req.params;
 
-     const user = await User.findById(id);
+    const user = await User.findById(id);
     if (!user) {
       return res.status(404).json({
         success: false,
@@ -165,12 +143,10 @@ export const deleteUser = async (req, res) => {
   }
 };
 
-
 export const toggleUserAdmin = async (req, res) => {
   try {
     const { id } = req.params;
 
-  
     const user = await User.findById(id);
     if (!user) {
       return res.status(404).json({
@@ -192,38 +168,35 @@ export const toggleUserAdmin = async (req, res) => {
       success: false,
       message: "Internal server error",
       error: error.message,
-      error: error.message
+      error: error.message,
     });
   }
 };
 
-// دالة تسجيل الخروج
 export const signOut = async (req, res) => {
   try {
-    // حذف الـ cookie
     res.clearCookie("token", {
       httpOnly: true,
-      secure: process.env.NODE_ENV === 'production',
-      sameSite: 'strict'
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "strict",
     });
 
     return res.status(200).json({
       success: true,
-      message: "Sign out successful"
+      message: "Sign out successful",
     });
   } catch (error) {
     return res.status(500).json({
       success: false,
       message: "Internal server error during sign out",
-      error: error.message
+      error: error.message,
     });
   }
 };
 
-
 export const getUsers = async (req, res) => {
   try {
-    const users = await User.find().select('-password'); 
+    const users = await User.find().select("-password");
 
     return res.status(200).json({
       success: true,
@@ -236,5 +209,57 @@ export const getUsers = async (req, res) => {
       message: "Internal server error",
       error: error.message,
     });
+  }
+};
+
+export const refreshToken = async (req, res) => {
+  try {
+    const token = req.cookies.refreshToken;
+    if (!token) {
+      return res
+        .status(401)
+        .json({ success: false, message: "Refresh token not found" });
+    }
+
+    jwt.verify(token, process.env.JWT_REFRESH_SECRET, async (err, decoded) => {
+      if (err) {
+        return res
+          .status(403)
+          .json({ success: false, message: "Invalid refresh token" });
+      }
+
+      const user = await User.findById(decoded.id);
+      if (!user || user.refreshToken !== token) {
+        return res
+          .status(403)
+          .json({ success: false, message: "Invalid refresh token" });
+      }
+
+      // Generate new access token
+      const newAccessToken = jwt.sign(
+        { id: user._id, isAdmin: user.isAdmin },
+        process.env.JWT_SECRET,
+        { expiresIn: "15m" }
+      );
+
+      res.cookie("accessToken", newAccessToken, {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === "production",
+        sameSite: "strict",
+        maxAge: 15 * 60 * 1000,
+      });
+
+      return res
+        .status(200)
+        .json({ success: true, accessToken: newAccessToken });
+    });
+  } catch (error) {
+    return res
+      .status(500)
+      .json({
+        success: false,
+        message: "Internal server error",
+        error: error.message,
+      });
   }
 };
