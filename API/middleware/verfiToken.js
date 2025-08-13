@@ -1,40 +1,40 @@
 import jwt from 'jsonwebtoken';
 
-export const verifyToken = async (req, res, next) => {
+export const verifyToken = (req, res, next) => {
   try {
-    console.log(req.headers)
-     const token = req.cookies?.token 
-    console.log(token)
-    if (!token) {
-      return res.status(401).json({ 
+       let accessToken = req.cookies?.token;
+
+    if (!accessToken && req.headers.authorization?.startsWith('Bearer ')) {
+      accessToken = req.headers.authorization.split(' ')[1];
+    }
+
+    if (!accessToken) {
+      return res.status(401).json({
         success: false,
         message: "Authorization token is required"
       });
     }
 
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    const decoded = jwt.verify(accessToken, process.env.JWT_SECRET);
 
-   
-    if (!decoded.id && !decoded.isAdmin) {
-      return res.status(403).json({
+    if (!decoded?.id) {
+      return res.status(401).json({
         success: false,
         message: "Invalid token payload"
       });
     }
 
-      req.user = {
+    req.user = {
       id: decoded.id,
       isAdmin: decoded.isAdmin || false
     };
-    next();
 
+    next();
   } catch (error) {
-   
-     
+    console.error('Token verification error:', error.message);
     return res.status(401).json({
       success: false,
-      message:"Authentication failed",
-      error: error
+      message: "Invalid or expired token"
     });
   }
 };

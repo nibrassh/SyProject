@@ -1,5 +1,6 @@
 import express from "express";
 import { verifyToken } from "../middleware/verfiToken.js";
+import { isAdmin } from "../middleware/isAdmin.js";
 import { upload } from "../middleware/multer.js";
 import {
   companyController,
@@ -10,101 +11,164 @@ import {
 
 const adminRoute = express.Router();
 
+
+
 // ------------------- Company Routes -------------------
+
+// Create company (protected)
 adminRoute.post(
-  "/add-company",
+  "/companies",
+  verifyToken,
+  isAdmin,
   upload.single("image"),
   companyController.createCompany
 );
 
+// Update company (protected)
 adminRoute.put(
-  "/update-company/:id",
+  "/companies/:companyId",
   verifyToken,
+  isAdmin,
   upload.single("image"),
   companyController.updateCompany
 );
 
+// Delete company (protected)
 adminRoute.delete(
-  "/delete-company/:id",
+  "/companies/:companyId",
   verifyToken,
+  isAdmin,
   companyController.deleteCompany
 );
 
+// Get all companies (public)
 adminRoute.get("/companies", companyController.getAllCompanies);
-adminRoute.get("/company/:id", companyController.getCompanyById);
+
+// Get single company by ID (public)
+adminRoute.get("/companies/:companyId", companyController.getCompanyById);
 
 // ------------------- Branch Routes -------------------
+
+// Create branch under a company (protected)
 adminRoute.post(
-  "/add-branch/:id",
+  "/companies/:companyId/branches",
   verifyToken,
+  isAdmin,
   upload.single("image"),
   branchController.createBranch
 );
 
+// Update branch (protected)
 adminRoute.put(
-  "/update-branch/:id",
+  "/branches/:branchId",
   verifyToken,
+  isAdmin,
   upload.single("image"),
   branchController.updateBranch
 );
 
+// Delete branch (protected)
 adminRoute.delete(
-  "/delete-branch/:id",
+  "/branches/:branchId",
   verifyToken,
+  isAdmin,
   branchController.deleteBranch
 );
-adminRoute.get("/branches/:id", branchController.getAllBranches);
-adminRoute.get("/branch/:id", branchController.getBranchById);
+
+// Get all branches for a company (public)
+adminRoute.get(
+  "/companies/:companyId/branches",
+  branchController.getAllBranches
+);
+
+// Get single branch by ID (public)
+adminRoute.get("/branches/:branchId", branchController.getBranchById);
 
 // ------------------- Center Routes -------------------
+
+// Create center under a branch (protected)
 adminRoute.post(
-  "/add-center/:id",
+  "/branches/:branchId/centers",
   verifyToken,
+  isAdmin,
   upload.single("image"),
   centerController.createCenter
 );
 
-adminRoute.put( 
-  "/update-center/:id",
+// Update center (protected)
+adminRoute.put(
+  "/centers/:centerId",
   verifyToken,
+  isAdmin,
   upload.single("image"),
   centerController.updateCenter
 );
 
+// Delete center (protected)
 adminRoute.delete(
-  "/delete-center/:id",
+  "/centers/:centerId",
   verifyToken,
+  isAdmin,
   centerController.deleteCenter
 );
-adminRoute.get("/center/:id", centerController.getCenterById);
-adminRoute.get("/centers/:id", centerController.getCentersByBranchId);
+
+// Get single center by ID (public)
+adminRoute.get("/centers/:centerId", centerController.getCenterById);
+
+// Get all centers for a branch (public)
+adminRoute.get(
+  "/branches/:branchId/centers",
+  centerController.getCentersByBranchId
+);
 
 // ------------------- Request Routes -------------------
-adminRoute.get("/requests", verifyToken, requestAdminController.getAllRequests);
+
+// Get all requests (protected? or public? Adjust as needed)
+adminRoute.get(
+  "/requests",
+  verifyToken,
+  isAdmin,
+  requestAdminController.getAllRequests
+);
+
+// Get requests filtered by state (protected)
 adminRoute.post(
   "/requests/state",
-   verifyToken,
+  verifyToken,
+  isAdmin,
   requestAdminController.getRequestsByState
 );
+
+// Get requests with "free" state (protected)
 adminRoute.get(
   "/requests/free",
- verifyToken,
+  verifyToken,
+  isAdmin,
   requestAdminController.getRequestsFree
 );
+
+// Get request details by ID (protected)
 adminRoute.get(
-  "/request/:id",
-   verifyToken,
+  "/requests/:requestId",
+  verifyToken,
+  isAdmin,
   requestAdminController.getRequestDetailsById
 );
+
+// Delete a request (protected)
 adminRoute.delete(
-  "/request/:id",
+  "/requests/:requestId",
   verifyToken,
+  isAdmin,
   requestAdminController.deleteRequestById
 );
+
+// Change request state (protected)
 adminRoute.put(
-  "/request/:id/state",
+  "/requests/:requestId/state",
   verifyToken,
-   requestAdminController.changeRequestState
+  isAdmin,
+  requestAdminController.changeRequestState
 );
 
 export default adminRoute;

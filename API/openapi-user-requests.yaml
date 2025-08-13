@@ -1,0 +1,186 @@
+openapi: 3.0.3
+info:
+  title: User Request API
+  version: 1.0.0
+  description: >
+    API for submitting investment requests for a **Company**, **Branch**, or **Center**.
+    The request body must contain all required fields defined in the `Request` schema.
+    **No authentication is required** for these endpoints.
+
+servers:
+  - url: http://localhost:5000/api/user/v1/request
+
+paths:
+  /company/{companyId}:
+    post:
+      summary: Create a request for a Company
+      description: >
+        Creates a new request related to a specific **Company** by its `companyId`.
+        Automatically updates the company's branches and centers request status.
+      parameters:
+        - name: companyId
+          in: path
+          required: true
+          schema:
+            type: string
+          description: The ID of the company.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Request'
+      responses:
+        "201":
+          description: Request successfully created for the company
+        "500":
+          description: Server error
+
+  /branch/{branchId}:
+    post:
+      summary: Create a request for a Branch
+      description: >
+        Creates a new request related to a specific **Branch** by its `branchId`.
+        Automatically updates related centers request status.
+      parameters:
+        - name: branchId
+          in: path
+          required: true
+          schema:
+            type: string
+          description: The ID of the branch.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Request'
+      responses:
+        "201":
+          description: Request successfully created for the branch
+        "500":
+          description: Server error
+
+  /center/{centerId}:
+    post:
+      summary: Create a request for a Center
+      description: >
+        Creates a new request related to a specific **Center** by its `centerId`.
+      parameters:
+        - name: centerId
+          in: path
+          required: true
+          schema:
+            type: string
+          description: The ID of the center.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Request'
+      responses:
+        "201":
+          description: Request successfully created for the center
+        "500":
+          description: Server error
+
+components:
+  schemas:
+    Request:
+      type: object
+      required:
+        - email
+        - phone
+        - projectTitle
+        - companyNatureAndActivities
+        - geographicalLocations
+        - companyCapital
+        - businessField
+        - mainActivity
+        - currentContractsSize
+        - currentContractsDetails
+        - investmentPurpose
+        - investmentDuration
+        - expectedAnnualReturn
+        - investmentConditions
+        - numberOfEmployees
+        - employeeDetails
+        - realEstateProperties
+        - fixedAssets
+        - nonFixedAssets
+        - equipmentAndMachinery
+        - technicalConditionOfEquipment
+        - financialObligations
+        - lastAuditedFinancialBalance
+      properties:
+        email:
+          type: string
+          format: email
+          description: User's email address
+        phone:
+          type: string
+          description: Contact phone number
+        projectTitle:
+          type: string
+          description: Title of the investment project
+        companyNatureAndActivities:
+          type: string
+          description: Nature and activities of the company
+        geographicalLocations:
+          type: string
+          description: Geographical location(s) of operations
+        companyCapital:
+          type: number
+          description: Total company capital
+        businessField:
+          type: string
+          description: Field of business
+        mainActivity:
+          type: string
+          description: Main business activity
+        currentContractsSize:
+          type: string
+          description: Size of current contracts
+        currentContractsDetails:
+          type: string
+          description: Details about current contracts
+        investmentPurpose:
+          type: string
+          description: Purpose of the investment
+        investmentDuration:
+          type: string
+          description: Expected duration of the investment
+        expectedAnnualReturn:
+          type: number
+          description: Expected annual return (percentage)
+        investmentConditions:
+          type: string
+          description: Conditions tied to the investment
+        numberOfEmployees:
+          type: number
+          description: Total number of employees
+        employeeDetails:
+          type: string
+          description: Additional details about employees
+        realEstateProperties:
+          type: string
+          description: Details about owned real estate properties
+        fixedAssets:
+          type: string
+          description: List of fixed assets
+        nonFixedAssets:
+          type: string
+          description: List of non-fixed assets
+        equipmentAndMachinery:
+          type: string
+          description: Details of equipment and machinery
+        technicalConditionOfEquipment:
+          type: string
+          description: Technical condition of the equipment
+        financialObligations:
+          type: string
+          description: Existing financial obligations
+        lastAuditedFinancialBalance:
+          type: string
+          description: Most recent audited financial balance

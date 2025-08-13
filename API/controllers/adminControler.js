@@ -14,8 +14,7 @@ function autoParse(value) {
 }
 
 export const companyController = {
-  // 1. Create Company
-  createCompany: async (req, res) => {
+   createCompany: async (req, res) => {
     try {
       const raw = req.body;
 
@@ -89,10 +88,9 @@ export const companyController = {
     }
   },
 
-
   updateCompany: async (req, res) => {
     try {
-      const { id } = req.params;
+      const { companyId } = req.params;
       const updates = { ...req.body };
 
       // Convert uploaded image to Base64 string
@@ -133,7 +131,7 @@ export const companyController = {
       }
 
       // Perform the update
-      const updatedCompany = await Company.findByIdAndUpdate(id, updates, {
+      const updatedCompany = await Company.findByIdAndUpdate(companyId, updates, {
         new: true,
         runValidators: true
       });
@@ -157,14 +155,11 @@ export const companyController = {
     }
   },
 
-
-
-
   deleteCompany: async (req, res) => {
     try {
-      const { id } = req.params;
+      const { companyId } = req.params;
 
-      const company = await Company.findById(id).populate("branches");
+      const company = await Company.findById(companyId).populate("branches");
 
       if (!company) {
         return res.status(404).json({ success: false, message: "Company not found" });
@@ -181,7 +176,7 @@ export const companyController = {
       await Branch.deleteMany({ _id: { $in: company.branches.map(b => b._id) } });
 
       // Delete the company
-      await Company.findByIdAndDelete(id);
+      await Company.findByIdAndDelete(companyId);
 
       return res.json({ success: true, message: "Company, its branches, and their centers deleted successfully" });
 
@@ -191,8 +186,6 @@ export const companyController = {
     }
   },
 
-
-  // 4. Get All Companies
   getAllCompanies: async (req, res) => {
     try {
       const companies = await Company.find();
@@ -205,8 +198,8 @@ export const companyController = {
 
   getCompanyById: async (req, res) => {
     try {
-      const { id } = req.params;
-      const company = await Company.findById(id).populate({
+      const { companyId } = req.params;
+      const company = await Company.findById(companyId).populate({
         path: "branches"
       });;
 
@@ -227,7 +220,7 @@ export const branchController = {
   createBranch: async (req, res) => {
     try {
       const raw = req.body;
-      const compId = req.params.id
+      const compId = req.params.companyId
 
       const company = await Company.findById(compId);
       if (!company) {
@@ -239,8 +232,8 @@ export const branchController = {
 
       const name = autoParse(raw.name);
       const address = autoParse(raw.address);
-      const shortDescription = autoParse(raw.shortDescription);
-      const longDescription = autoParse(raw.longDescription);
+      const shortdescription = autoParse(raw.shortdescription);
+      const longdescription = autoParse(raw.longdescription);
       const location = autoParse(raw.location);
       const machinery = autoParse(raw.machinery);
       const notes = autoParse(raw.notes);
@@ -267,7 +260,7 @@ export const branchController = {
         name,
         address: address || { en: "", ar: "" },
         image,
-        shortdescription: shortDescription || { en: "", ar: "" },
+        shortdescription: shortdescription || { en: "", ar: "" },
         longdescription: longDescription || { en: "", ar: "" },
         location: [
           parseFloat(location[0]),
@@ -312,7 +305,7 @@ export const branchController = {
   // 2. Update Branch
   updateBranch: async (req, res) => {
     try {
-      const { id } = req.params;
+      const { branchId } = req.params;
       const updates = { ...req.body };
 
       // Convert uploaded image to Base64 string
@@ -347,7 +340,7 @@ export const branchController = {
       }
 
       // Update the branch
-      const updatedBranch = await Branch.findByIdAndUpdate(id, updates, {
+      const updatedBranch = await Branch.findByIdAndUpdate(branchId, updates, {
         new: true,
         runValidators: true
       });
@@ -371,9 +364,9 @@ export const branchController = {
 
   deleteBranch: async (req, res) => {
     try {
-      const { id } = req.params;
+      const { branchId } = req.params;
 
-      const branch = await Branch.findById(id);
+      const branch = await Branch.findById(branchId);
       if (!branch) {
         return res.status(404).json({ success: false, message: "Branch not found" });
       }
@@ -381,7 +374,7 @@ export const branchController = {
 
       await Center.deleteMany({ branchId: branch._id });
 
-      await Branch.findByIdAndDelete(id);
+      await Branch.findByIdAndDelete(branchId);
 
 
       await Company.findByIdAndUpdate(branch.compId, {
@@ -399,9 +392,9 @@ export const branchController = {
 
   getAllBranches: async (req, res) => {
     try {
-      const { compId } = req.params;
+      const { companyId } = req.params;
 
-      const branches = await Branch.find({ compId })
+      const branches = await Branch.find({ compId:companyId })
 
       return res.json({ success: true, branches });
     } catch (error) {
@@ -414,8 +407,8 @@ export const branchController = {
 
   getBranchById: async (req, res) => {
     try {
-      const { id } = req.params;
-      const branch = await Branch.findById(id).populate({
+      const { branchId } = req.params;
+      const branch = await Branch.findById(branchId).populate({
         path: "centers"
       })
 
@@ -436,7 +429,7 @@ export const centerController = {
   createCenter: async (req, res) => {
     try {
       const raw = req.body;
-      const branchId = req.params.id;
+      const branchId = req.params.branchId;
       if (!branchId) {
         return res.status(400).json({
           success: false,
@@ -454,7 +447,7 @@ export const centerController = {
       }
 
       const companyId = branch.compId; // Fixed: get companyId from branch
-
+          console.log(companyId)
       // Parse data
       const name = autoParse(raw.name);
       const description = autoParse(raw.description);
@@ -502,11 +495,11 @@ export const centerController = {
         address,
         location: [parseFloat(location[0]), parseFloat(location[1])],
         theoreticalCapacity: {
-          value: Number(theoreticalCapacity.value),
+          value: Number(theoreticalCapacity?.value || 0),
           unit: theoreticalCapacity.unit || ""
         },
         actualCapacity: {
-          value: Number(actualCapacity.value),
+          value: Number(actualCapacity.value || 0) ,
           unit: actualCapacity.unit || ""
         },
         technicalReadiness,
@@ -574,7 +567,7 @@ export const centerController = {
 
   updateCenter: async (req, res) => {
     try {
-      const { id } = req.params;
+      const { centerId } = req.params;
       const raw = req.body;
 
       const updates = { ...raw };
@@ -605,7 +598,7 @@ export const centerController = {
         } catch { }
       }
 
-      const updatedCenter = await Center.findByIdAndUpdate(id, updates, {
+      const updatedCenter = await Center.findByIdAndUpdate(centerId, updates, {
         new: true,
         runValidators: true
       });
@@ -631,17 +624,17 @@ export const centerController = {
 
   deleteCenter: async (req, res) => {
     try {
-      const { id } = req.params;
+      const { centerId } = req.params;
 
 
-      const center = await Center.findById(id);
+      const center = await Center.findById(centerId);
       if (!center) {
         return res.status(404).json({ success: false, message: "Center not found" });
       }
-
-      await Center.findByIdAndDelete(id);
-      await Branch.findByIdAndUpdate(branchId, {
-        $pull: { centers: id }
+       
+      await Center.findByIdAndDelete(centerId);
+      await Branch.findByIdAndUpdate(center.branchId, {
+        $pull: { centers: centerId }
       });
 
       return res.json({
@@ -660,10 +653,10 @@ export const centerController = {
 
   getCenterById: async (req, res) => {
     try {
-      const { id } = req.params;
+      const { centerId } = req.params;
 
 
-      const center = await Center.findById(id)
+      const center = await Center.findById(centerId)
 
 
       if (!center) {
@@ -683,10 +676,10 @@ export const centerController = {
       });
     }
   },
+  
   getCentersByBranchId: async (req, res) => {
     try {
-      const { branchId } = req.params;
-
+      const  branchId  = req.params.branchId;
       const centers = await Center.find({ branchId });
 
       return res.json({
@@ -727,14 +720,14 @@ export const requestAdminController = {
   // 2. Delete Request By ID
   deleteRequestById: async (req, res) => {
     try {
-      const { id } = req.params;
+      const { requestId } = req.params;
 
-      const requestDoc = await Request.findById(id);
+      const requestDoc = await Request.findById(requestId);
       if (!requestDoc) {
         return res.status(404).json({ success: false, message: "Request not found" });
       }
 
-      await Request.findByIdAndDelete(id);
+      await Request.findByIdAndDelete(requestId);
       return res.json({ success: true, message: "Request deleted successfully" });
     } catch (error) {
       console.error("Error deleting request:", error);
@@ -749,10 +742,10 @@ export const requestAdminController = {
   // 3. Change Request State
   changeRequestState: async (req, res) => {
     try {
-      const { id } = req.params; // request id
+      const { requestId } = req.params; // request id
       const { state } = req.body; // 'agree', 'reverse', 'free'
 
-      const requestDoc = await Request.findById(id);
+      const requestDoc = await Request.findById(requestId);
       if (!requestDoc) {
         return res.status(404).json({ success: false, message: "Request not found" });
       }
@@ -872,9 +865,9 @@ export const requestAdminController = {
   // 6. Get Request Details By ID
   getRequestDetailsById: async (req, res) => {
     try {
-      const { id } = req.params;
+      const { requestId } = req.params;
 
-      const requestDoc = await Request.findById(id);
+      const requestDoc = await Request.findById(requestId);
       if (!requestDoc) {
         return res.status(404).json({ success: false, message: "Request not found" });
       }

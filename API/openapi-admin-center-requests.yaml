@@ -1,0 +1,397 @@
+openapi: 3.0.3
+info:
+  title: Admin Center API
+  version: 1.0.0
+  description: API to manage centers, including creation, update, deletion, and retrieval with multilingual fields and image upload.
+
+servers:
+  - url: http://localhost:5000/api/admin/v1
+
+components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: >
+        JWT access token, sent as cookie `accessToken`. Frontend should send credentials.
+
+  schemas:
+    MultilingualString:
+      type: object
+      properties:
+        en:
+          type: string
+          example: "English text"
+        ar:
+          type: string
+          example: "النص العربي"
+      required:
+        - en
+        - ar
+
+    Location:
+      type: array
+      description: Coordinates [longitude, latitude]
+      items:
+        type: number
+      minItems: 2
+      maxItems: 2
+      example: [35.6895, 139.6917]
+
+    Capacity:
+      type: object
+      properties:
+        value:
+          type: number
+          example: 1000
+        unit:
+          type: string
+          example: "kg"
+
+    Cost:
+      type: object
+      properties:
+        value:
+          type: number
+          example: 15000
+        currency:
+          type: string
+          example: "SYP"
+        specification:
+          type: string
+          example: "per month"
+
+    EquipmentItem:
+      type: object
+      properties:
+        en:
+          type: string
+        ar:
+          type: string
+
+    ProducedMaterial:
+      type: object
+      properties:
+        name:
+          $ref: '#/components/schemas/MultilingualString'
+        specification:
+          type: string
+          example: "Spec details"
+
+    OperatingCosts:
+      type: object
+      properties:
+        equipment:
+          type: array
+          items:
+            $ref: '#/components/schemas/EquipmentItem'
+        laborCosts:
+          $ref: '#/components/schemas/Cost'
+
+    Center:
+      type: object
+      properties:
+        _id:
+          type: string
+          example: "64dca33fbc4c57f8b12e5678"
+        name:
+          $ref: '#/components/schemas/MultilingualString'
+        description:
+          $ref: '#/components/schemas/MultilingualString'
+        management:
+          $ref: '#/components/schemas/MultilingualString'
+        address:
+          $ref: '#/components/schemas/MultilingualString'
+        location:
+          $ref: '#/components/schemas/Location'
+        theoreticalCapacity:
+          $ref: '#/components/schemas/Capacity'
+        actualCapacity:
+          $ref: '#/components/schemas/Capacity'
+        technicalReadiness:
+          type: number
+          example: 85
+        specificationCompliance:
+          $ref: '#/components/schemas/MultilingualString'
+        producedMaterials:
+          type: array
+          items:
+            $ref: '#/components/schemas/ProducedMaterial'
+        currentProductCost:
+          $ref: '#/components/schemas/Cost'
+        monthlyMaintenanceCost:
+          $ref: '#/components/schemas/Cost'
+        operatingCosts:
+          $ref: '#/components/schemas/OperatingCosts'
+        staffStatus:
+          $ref: '#/components/schemas/MultilingualString'
+        numberOfEmployees:
+          type: integer
+          example: 50
+        notes:
+          $ref: '#/components/schemas/MultilingualString'
+        image:
+          type: string
+          description: Base64 encoded image
+          example: "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD..."
+        branchId:
+          type: string
+          description: Branch ObjectId
+        compId:
+          type: string
+          description: Company ObjectId
+        request:
+          type: string
+          enum: ["free", "reverc", "agree"]
+          example: "free"
+        createdAt:
+          type: string
+          format: date-time
+          example: "2023-08-20T10:00:00Z"
+        updatedAt:
+          type: string
+          format: date-time
+          example: "2023-08-21T15:30:00Z"
+      required:
+        - name
+        - address
+        - location
+        - branchId
+
+    CenterCreateRequest:
+      type: object
+      description: Center creation payload (send image as multipart form data with field "image")
+      properties:
+        name:
+          $ref: '#/components/schemas/MultilingualString'
+        description:
+          $ref: '#/components/schemas/MultilingualString'
+        management:
+          $ref: '#/components/schemas/MultilingualString'
+        address:
+          $ref: '#/components/schemas/MultilingualString'
+        location:
+          $ref: '#/components/schemas/Location'
+        theoreticalCapacity:
+          $ref: '#/components/schemas/Capacity'
+        actualCapacity:
+          $ref: '#/components/schemas/Capacity'
+        technicalReadiness:
+          type: number
+          description: "Percentage or score"
+        specificationCompliance:
+          $ref: '#/components/schemas/MultilingualString'
+        producedMaterials:
+          type: array
+          items:
+            $ref: '#/components/schemas/ProducedMaterial'
+        currentProductCost:
+          $ref: '#/components/schemas/Cost'
+        monthlyMaintenanceCost:
+          $ref: '#/components/schemas/Cost'
+        operatingCosts:
+          $ref: '#/components/schemas/OperatingCosts'
+        staffStatus:
+          $ref: '#/components/schemas/MultilingualString'
+        numberOfEmployees:
+          type: integer
+        notes:
+          $ref: '#/components/schemas/MultilingualString'
+        request:
+          type: string
+          enum: ["free", "reverc", "agree"]
+          default: "free"
+        newdata:
+          type: array
+          description: Optional additional multilingual fields [{ "fieldKey": { "en": "val", "ar": "val" }}]
+          items:
+            type: object
+      required:
+        - name
+        - address
+        - location
+
+    CenterUpdateRequest:
+      type: object
+      description: Fields to update center (send image as multipart form data "image")
+      properties:
+        name:
+          $ref: '#/components/schemas/MultilingualString'
+        description:
+          $ref: '#/components/schemas/MultilingualString'
+        management:
+          $ref: '#/components/schemas/MultilingualString'
+        address:
+          $ref: '#/components/schemas/MultilingualString'
+        location:
+          $ref: '#/components/schemas/Location'
+        theoreticalCapacity:
+          $ref: '#/components/schemas/Capacity'
+        actualCapacity:
+          $ref: '#/components/schemas/Capacity'
+        technicalReadiness:
+          type: number
+        specificationCompliance:
+          $ref: '#/components/schemas/MultilingualString'
+        producedMaterials:
+          type: array
+          items:
+            $ref: '#/components/schemas/ProducedMaterial'
+        currentProductCost:
+          $ref: '#/components/schemas/Cost'
+        monthlyMaintenanceCost:
+          $ref: '#/components/schemas/Cost'
+        operatingCosts:
+          $ref: '#/components/schemas/OperatingCosts'
+        staffStatus:
+          $ref: '#/components/schemas/MultilingualString'
+        numberOfEmployees:
+          type: integer
+        notes:
+          $ref: '#/components/schemas/MultilingualString'
+        request:
+          type: string
+          enum: ["free", "reverc", "agree"]
+        newdata:
+          type: array
+          items:
+            type: object
+
+    SuccessResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: true
+        message:
+          type: string
+          example: "Operation successful"
+
+    ErrorResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: false
+        message:
+          type: string
+          example: "Error message"
+        error:
+          type: string
+          example: "Detailed error info"
+
+paths:
+
+  /branches/{branchId}/centers:
+    post:
+      summary: Create a new center under a branch (admin protected)
+      tags:
+        - Centers
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: branchId
+          in: path
+          required: true
+          description: Branch ObjectId
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              allOf:
+                - $ref: '#/components/schemas/CenterCreateRequest'
+                - type: object
+                  properties:
+                    image:
+                      type: string
+                      format: binary
+                      description: Image file upload
+      responses:
+        '201':
+          description: Center created successfully
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/SuccessResponse'
+                  - type: object
+                    properties:
+                      centerId:
+                        type: string
+                        example: "64dca33fbc4c57f8b12e5678"
+        '400':
+          description: Missing or invalid fields
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Branch not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+    get:
+      summary: Get all centers for a branch (public)
+      tags:
+        - Centers
+      parameters:
+        - name: branchId
+          in: path
+          required: true
+          description: Branch ObjectId
+          schema:
+            type: string
+      responses:
+        '200':
+          description: List of centers
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  centers:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Center'
+        '500':
+          description: Server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /centers/{centerId}:
+    get:
+      summary: Get center by ID (public)
+      tags:
+        - Centers
+      parameters:
+        - name: centerId
+          in: path
+          required: true
+          description: Center ObjectId
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Center details
+          content:
+            application/json:
+              schema:
+                type: object
+               

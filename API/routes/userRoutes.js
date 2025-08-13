@@ -1,14 +1,11 @@
 import express from 'express';
-import {requestController } from '../controllers/userController.js';
+import { requestController } from '../controllers/userController.js';
 
 const userRoute = express.Router();
 
-userRoute.post('/request/company/:id', requestController.companyRequest);
 
-
-userRoute.post('/request/branch/:id', requestController.branchRequest);
-
-
-userRoute.post('/request/center/:id', requestController.centerRequest);
-
+userRoute.post('/company/:companyId', requestController.companyRequest);
+userRoute.post('/branch/:branchId', requestController.branchRequest);  
+userRoute.post('/center/:centerId', requestController.centerRequest);
+ 
 export default userRoute;

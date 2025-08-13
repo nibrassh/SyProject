@@ -37,7 +37,8 @@ const branchSchema = new mongoose.Schema({
   },
   centers: [{ 
     type: mongoose.Schema.Types.ObjectId, 
-    ref: 'Center' 
+    ref: 'Center',
+    default: []
   }],
     // New Fields
   numberOfEmployees: {
